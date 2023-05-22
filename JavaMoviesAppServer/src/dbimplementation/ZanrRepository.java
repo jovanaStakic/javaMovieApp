@@ -15,12 +15,12 @@ import java.util.ArrayList;
  */
 public class ZanrRepository implements dbrepository.Repository<Zanr>{
 
-    @Override
+    
     public List<Zanr> getAll() {
         List<Zanr> zanrovi=new ArrayList<>();
         try {
             String query="SELECT * FROM zanr ORDER BY nazivZanra";
-            Connection connection=db.DBConnection.getInstance().getConnection();
+            Connection connection=db.DBConnectionFactory.getInstance().getConnection();
             Statement statement=connection.createStatement();
             ResultSet rs=statement.executeQuery(query);
             while(rs.next()){
@@ -50,8 +50,14 @@ public class ZanrRepository implements dbrepository.Repository<Zanr>{
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+
     @Override
-    public List<Zanr> getAllByKorisnik(Korisnik korisnik) {
+    public List<Zanr> getAll(Zanr param) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public List<Zanr> getAllByKorisnik(Zanr param, Korisnik korisnik) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     

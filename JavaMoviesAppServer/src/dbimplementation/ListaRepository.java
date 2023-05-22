@@ -1,4 +1,4 @@
-/*
+ /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
@@ -9,6 +9,7 @@ import dbrepository.Repository;
 import domain.Korisnik;
 import domain.Lista;
 import domain.Film;
+import domain.GenericEntity;
 import java.util.ArrayList;
 import java.util.List;
 /**
@@ -17,19 +18,11 @@ import java.util.List;
  */
 public class ListaRepository implements Repository<Lista>{
 
-    @Override
-    public List<Lista> getAll() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public List<Lista> getAllByKorisnik(Korisnik korisnik) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+  
 
     @Override
     public void add(Lista param) throws Exception {
-        Connection connection=db.DBConnection.getInstance().getConnection();
+        Connection connection=db.DBConnectionFactory.getInstance().getConnection();
         String query="INSERT INTO lista(nazivListe,datumKreiranja,korisnikID) VALUES (?,?,?)";
         PreparedStatement preparedStatement=connection.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
         preparedStatement.setString(1, param.getNazivListe());
@@ -42,12 +35,13 @@ public class ListaRepository implements Repository<Lista>{
             Long idListe=rs.getLong(1);
             query="INSERT INTO film(naziv,datumIzlaska, trajanjeFilma, drzavaPorekla, korisnikID, zanrID, reziserID) VALUES (?,?,?,?,?,?,?)";
             preparedStatement=connection.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
-            List<Film> filmovi=controller.Controller.getInstance().getFilmoviByKorisnik(param.getKorisnik());
+            List<GenericEntity> filmovi=controller.Controller.getInstance().getAllFilmoviByKorisnik(param.getKorisnik());
 
             for (Film film : param.getFilmovi()) {
                 keys.add(film.getId());
                 if(!filmovi.contains(film)){
-            System.out.println("Usao je: "+film);
+            
+                    
             preparedStatement.setString(1, film.getNaziv());
             preparedStatement.setDate(2, new Date(film.getDatumIzlaska().getTime()));
             preparedStatement.setInt(3, film.getTrajajanjeFilma());
@@ -82,6 +76,16 @@ public class ListaRepository implements Repository<Lista>{
 
     @Override
     public void delete(Lista param) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public List<Lista> getAll(Lista param) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public List<Lista> getAllByKorisnik(Lista param, Korisnik korisnik) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     

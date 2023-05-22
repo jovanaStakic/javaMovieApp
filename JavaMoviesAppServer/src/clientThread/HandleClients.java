@@ -51,7 +51,7 @@ public class HandleClients extends Thread{
                         prijavljenKorisnik=korisnik;
                         break;
                     case SAVE_MOVIE:
-                        controller.Controller.getInstance().saveFilm((Film) request.getArgument());
+                        controller.Controller.getInstance().saveFilm((Film) request.getArgument(),prijavljenKorisnik);
                         break;
                     case GET_ZANROVI:
                         response.setResult(controller.Controller.getInstance().getZanrovi());
@@ -69,10 +69,10 @@ public class HandleClients extends Thread{
                         response.setResult(controller.Controller.getInstance().findByNaziv((String) request.getArgument(), prijavljenKorisnik));
                         break;
                     case GET_FILMOVI:
-                        response.setResult(controller.Controller.getInstance().getFilmoviByKorisnik(prijavljenKorisnik));
+                        response.setResult(controller.Controller.getInstance().getAllFilmoviByKorisnik(prijavljenKorisnik));
                         break;
                     case SAVE_RECENZIJA:
-                        controller.Controller.getInstance().saveRecenzija((Recenzija) request.getArgument());
+                        controller.Controller.getInstance().saveRecenzija((Recenzija) request.getArgument(),prijavljenKorisnik);
                         break;
                     case GET_RECENZIJE:
                         response.setResult(controller.Controller.getInstance().getRecenzijaByKorisnik(prijavljenKorisnik));

@@ -4,7 +4,7 @@
  */
 package dbimplementation;
 
-import db.DBConnection;
+import db.DBConnectionFactory;
 import domain.Korisnik;
 import java.util.List;
 import java.sql.*;
@@ -16,11 +16,11 @@ import java.util.ArrayList;
  */
 public class KorisnikRepository implements dbrepository.Repository<Korisnik>{
 
-    @Override
+    
     public List<Korisnik> getAll() {
         try {
             List<Korisnik> korisnici=new ArrayList<>();
-            Connection connection=DBConnection.getInstance().getConnection();
+            Connection connection=DBConnectionFactory.getInstance().getConnection();
             String query="SELECT * FROM korisnik";
             Statement statement=connection.createStatement();
             ResultSet rs=statement.executeQuery(query);
@@ -56,8 +56,14 @@ public class KorisnikRepository implements dbrepository.Repository<Korisnik>{
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+
     @Override
-    public List<Korisnik> getAllByKorisnik(Korisnik korisnik) {
+    public List<Korisnik> getAll(Korisnik param) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public List<Korisnik> getAllByKorisnik(Korisnik param, Korisnik korisnik) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     

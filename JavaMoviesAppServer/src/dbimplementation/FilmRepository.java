@@ -5,7 +5,7 @@
 package dbimplementation;
 
 import com.mysql.cj.jdbc.PreparedStatementWrapper;
-import db.DBConnection;
+import db.DBConnectionFactory;
 import java.sql.*;
 import dbrepository.Repository;
 import domain.*;
@@ -20,15 +20,11 @@ import java.util.logging.Logger;
  */
 public class FilmRepository implements Repository<Film> {
 
-    @Override
-    public List<Film> getAll() {
-                      throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-
-    }
+    
 
     @Override
     public void add(Film param) throws Exception {
-        Connection connection = DBConnection.getInstance().getConnection();
+        Connection connection = DBConnectionFactory.getInstance().getConnection();
         try {
             String query = "INSERT INTO film(naziv,datumIzlaska, trajanjeFilma, drzavaPorekla, korisnikID, zanrID, reziserID) VALUES (?,?,?,?,?,?,?)";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -61,7 +57,7 @@ public class FilmRepository implements Repository<Film> {
         public List<Film> findAllByReziser(Reziser reziser,Korisnik korisnik){
             List<Film> filmovi=new ArrayList<>();
         try {
-            Connection connection=DBConnection.getInstance().getConnection();
+            Connection connection=DBConnectionFactory.getInstance().getConnection();
             String query="SELECT f.filmID, f.naziv, f.datumIzlaska,f.trajanjeFilma,f.drzavaPorekla,z.zanrID,z.nazivZanra FROM film AS f JOIN zanr AS z ON f.reziserID=z.zanrID WHERE f.reziserID="+reziser.getId()+" AND f.korisnikID="+korisnik.getId()+" ORDER BY f.naziv";
             Statement statement=connection.createStatement();
             ResultSet rs=statement.executeQuery(query);
@@ -80,7 +76,7 @@ public class FilmRepository implements Repository<Film> {
           public List<Film> findAllByZanr(Zanr zanr,Korisnik korisnik){
                 List<Film> filmovi=new ArrayList<>();
         try {
-            Connection connection=DBConnection.getInstance().getConnection();
+            Connection connection=DBConnectionFactory.getInstance().getConnection();
             String query="SELECT f.filmID,f.naziv,f.datumIzlaska,f.trajanjeFilma,f.drzavaPorekla,r.reziserID,r.imePrezime,r.datumRodjenja,r.drzavaPorekla FROM film AS f JOIN reziser AS r ON f.reziserID=r.reziserID WHERE f.zanrID="+zanr.getId()+" AND f.korisnikID="+korisnik.getId()+" ORDER BY f.naziv";
             Statement statement=connection.createStatement();
             ResultSet rs=statement.executeQuery(query);
@@ -97,11 +93,10 @@ public class FilmRepository implements Repository<Film> {
         return null;
         }
 
-    @Override
     public List<Film> getAllByKorisnik(Korisnik korisnik) {
            List<Film> filmovi=new ArrayList<>();
         try {
-            Connection connection=DBConnection.getInstance().getConnection();
+            Connection connection=DBConnectionFactory.getInstance().getConnection();
             String query="SELECT f.filmID,f.naziv,f.datumIzlaska,f.trajanjeFilma,f.drzavaPorekla,r.reziserID,r.imePrezime,r.datumRodjenja,r.drzavaPorekla,z.zanrID,z.nazivZanra FROM film AS f JOIN reziser AS r ON f.reziserID=r.reziserID JOIN zanr AS z ON z.zanrID=f.zanrID WHERE korisnikID="+korisnik.getId()+" ORDER BY f.naziv";
             Statement statement=connection.createStatement();
             ResultSet rs=statement.executeQuery(query);
@@ -123,7 +118,7 @@ public class FilmRepository implements Repository<Film> {
     public List<Film> findAllByNaziv(String naziv,Korisnik korisnik){
                 List<Film> filmovi=new ArrayList<>();
         try {
-            Connection connection=DBConnection.getInstance().getConnection();
+            Connection connection=DBConnectionFactory.getInstance().getConnection();
             String query="SELECT f.filmID,f.naziv,f.datumIzlaska,f.trajanjeFilma,f.drzavaPorekla,r.reziserID,r.imePrezime,r.datumRodjenja,r.drzavaPorekla,z.zanrID,z.nazivZanra FROM film AS f JOIN reziser AS r ON f.reziserID=r.reziserID JOIN zanr AS z ON z.zanrID=f.zanrID WHERE f.naziv='"+naziv+"' AND f.korisnikID="+korisnik.getId();
             Statement statement=connection.createStatement();
             ResultSet rs=statement.executeQuery(query);
@@ -140,4 +135,14 @@ public class FilmRepository implements Repository<Film> {
         }
         return null;
         }
+
+    @Override
+    public List<Film> getAll(Film param) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public List<Film> getAllByKorisnik(Film param, Korisnik korisnik) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

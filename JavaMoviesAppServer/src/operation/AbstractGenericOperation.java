@@ -1,18 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package operation;
 
 import db.DbRepository;
 
 import dbimplementation.RepositoryDBGeneric;
+import domain.Korisnik;
 
 /**
- *
- * @author Cartman
- */
+ * @author Administrator
+*/
 public abstract class AbstractGenericOperation {
 
     protected final DbRepository repository;
@@ -21,11 +16,11 @@ public abstract class AbstractGenericOperation {
         this.repository = new RepositoryDBGeneric();
     }
 
-    public final void execute(Object param) throws Exception {
+    public final void execute(Object param,Korisnik korisnik) throws Exception {
         try {
             preconditions(param);
             startTransaction();
-            executeOperation(param);
+            executeOperation(param,korisnik);
             commitTransaction();
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -36,17 +31,18 @@ public abstract class AbstractGenericOperation {
         }
     }
 
-    // Operation-specific method
+   
     protected abstract void preconditions(Object param) throws Exception;
 
     private void startTransaction() throws Exception {
         repository.connect();
     }
 
-    // Operation-specific method
-    protected abstract void executeOperation(Object param) throws Exception;
+  
+    protected abstract void executeOperation(Object param,Korisnik korisnik) throws Exception;
 
     private void commitTransaction() throws Exception {
+        System.out.println("komituje");
         repository.commit();
     }
 

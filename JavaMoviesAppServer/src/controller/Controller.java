@@ -13,6 +13,10 @@ import dbimplementation.ReziserRepository;
 import dbimplementation.ZanrRepository;
 import domain.*;
 import java.util.List;
+import operation.AbstractGenericOperation;
+import operationFilm.GetMoviesSO;
+import operationFilm.SaveMovieSO;
+import operationFilm.SaveRecenizijaSO;
 
 /**
  *
@@ -57,8 +61,9 @@ public class Controller {
         throw new Exception("Pogrešno korisničko ime i/ili lozinka!");
     }
 
-    public void saveFilm(Film film) throws Exception {
-        genericRepository.add(film);
+    public void saveFilm(Film film,Korisnik korisnik) throws Exception {
+        AbstractGenericOperation saveMovie=new SaveMovieSO();
+        saveMovie.execute(film,korisnik);
         
     }
 
@@ -82,12 +87,15 @@ public class Controller {
         return filmRepository.findAllByNaziv(naziv, korisnik);
     }
 
-    public List<Film> getFilmoviByKorisnik(Korisnik korisnik) {
-        return filmRepository.getAllByKorisnik(korisnik);
+    public List<GenericEntity> getAllFilmoviByKorisnik(Korisnik korisnik) throws Exception {
+        AbstractGenericOperation getAllByKorisnik=new GetMoviesSO();
+        getAllByKorisnik.execute(new Film(), korisnik);
+        return ((GetMoviesSO)getAllByKorisnik).getMovies();
     }
 
-    public void saveRecenzija(Recenzija recezija) throws Exception {
-        recenzijaRepository.add(recezija);
+    public void saveRecenzija(Recenzija recezija,Korisnik korisnik) throws Exception {
+        AbstractGenericOperation saveRecenzija=new SaveRecenizijaSO();
+       saveRecenzija.execute(recezija, korisnik);
     }
 
     public List<Recenzija> getRecenzijaByKorisnik(Korisnik korisnik) {

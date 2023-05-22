@@ -18,11 +18,11 @@ import java.util.logging.Logger;
  */
 public class ReziserRepository implements Repository<Reziser>{
 
-    @Override
+   
     public List<Reziser> getAll() {
         List<Reziser> reziseri=new ArrayList<>();
         try {
-            Connection connection=db.DBConnection.getInstance().getConnection();
+            Connection connection=db.DBConnectionFactory.getInstance().getConnection();
             String query="SELECT * FROM reziser ORDER BY imePrezime";
             Statement statement=connection.createStatement();
             ResultSet rs=statement.executeQuery(query);
@@ -53,8 +53,14 @@ public class ReziserRepository implements Repository<Reziser>{
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+    
     @Override
-    public List<Reziser> getAllByKorisnik(Korisnik korisnik) {
+    public List<Reziser> getAll(Reziser param) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public List<Reziser> getAllByKorisnik(Reziser param, Korisnik korisnik) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     

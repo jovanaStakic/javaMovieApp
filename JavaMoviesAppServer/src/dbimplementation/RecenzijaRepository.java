@@ -3,7 +3,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
 package dbimplementation;
-import db.DBConnection;
+import db.DBConnectionFactory;
 import domain.Film;
 import domain.Korisnik;
 import domain.Recenzija;
@@ -20,16 +20,12 @@ import java.util.logging.Logger;
  */
 public class RecenzijaRepository implements dbrepository.Repository<Recenzija>{
 
-    @Override
-    public List<Recenzija> getAll() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
+    
+    
     public List<Recenzija> getAllByKorisnik(Korisnik korisnik) {
         List<Recenzija> recenzije=new ArrayList<>();
         try {
-            Connection connection=DBConnection.getInstance().getConnection();
+            Connection connection=DBConnectionFactory.getInstance().getConnection();
             String query="SELECT r.recenzijaID,r.datumKreiranja,r.ocenaFilma,r.utisak,\n" +
 "f.filmID,f.naziv,f.datumIzlaska,f.trajanjeFilma,f.drzavaPorekla,zanr.zanrID, zanr.nazivZanra,rez.reziserID,\n" +
 "rez.imePrezime,rez.datumRodjenja,\n" +
@@ -60,7 +56,7 @@ public class RecenzijaRepository implements dbrepository.Repository<Recenzija>{
     public void add(Recenzija param) throws Exception {
        try{
            String query="INSERT INTO recenzija(datumKreiranja,ocenaFilma,utisak,korisnikID,filmID) VALUES(?,?,?,?,?)";
-      Connection connection=db.DBConnection.getInstance().getConnection();
+      Connection connection=db.DBConnectionFactory.getInstance().getConnection();
         PreparedStatement statement=connection.prepareStatement(query); 
         statement.setDate(1, new Date(param.getDatumKreiranja().getTime()));
        statement.setInt(2, param.getOcenaFilma());
@@ -85,7 +81,7 @@ public class RecenzijaRepository implements dbrepository.Repository<Recenzija>{
     public void delete(Recenzija param) throws Exception {
         try{
             String query="DELETE FROM recenzija WHERE recenzijaID="+param.getId();
-        Connection connection=DBConnection.getInstance().getConnection();
+        Connection connection=DBConnectionFactory.getInstance().getConnection();
         Statement statement=connection.createStatement();
         statement.executeUpdate(query);
         statement.close();
@@ -95,6 +91,16 @@ public class RecenzijaRepository implements dbrepository.Repository<Recenzija>{
            throw new Exception("Recenzija nije uspešno obrisana!");
        }
         
+    }
+
+    @Override
+    public List<Recenzija> getAll(Recenzija param) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public List<Recenzija> getAllByKorisnik(Recenzija param, Korisnik korisnik) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
 }

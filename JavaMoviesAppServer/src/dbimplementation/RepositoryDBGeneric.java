@@ -11,8 +11,11 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 import domain.GenericEntity;
-import db.DBConnection;
+import db.DBConnectionFactory;
 import domain.Korisnik;
+import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -23,7 +26,7 @@ public class RepositoryDBGeneric implements db.DbRepository<GenericEntity> {
     @Override
     public void add(GenericEntity entity) throws Exception {
         try {
-            Connection connection = DBConnection.getInstance().getConnection();
+            Connection connection = DBConnectionFactory.getInstance().getConnection();
             StringBuilder sb = new StringBuilder();
             sb.append("INSERT INTO ")
                     .append(entity.getTableName())
@@ -32,7 +35,7 @@ public class RepositoryDBGeneric implements db.DbRepository<GenericEntity> {
                     .append(entity.getInsertValues())
                     .append(")");
             String query = sb.toString();
-            System.out.println(query);
+            
             Statement statement = connection.createStatement();
             statement.executeUpdate(query, Statement.RETURN_GENERATED_KEYS);
             ResultSet rsKey = statement.getGeneratedKeys();
@@ -40,10 +43,12 @@ public class RepositoryDBGeneric implements db.DbRepository<GenericEntity> {
             if (rsKey.next()) {
                 Long id = rsKey.getLong(1);
                 entity.setId(id);
+                System.out.println(id);
             }
-            statement.close();
+          
            
-            rsKey.close();
+            rsKey.close();  
+            statement.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
             throw ex;
@@ -54,22 +59,48 @@ public class RepositoryDBGeneric implements db.DbRepository<GenericEntity> {
 
     @Override
     public void delete(GenericEntity param) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+           Connection connection=DBConnectionFactory.getInstance().getConnection();
+           StringBuilder sb=new StringBuilder();
+           sb.append("DELETE FROM ").append(param.getTableName()).append(" WHERE id=").append(param);
     }
 
-    @Override
-    public List<GenericEntity> getAll() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public List<GenericEntity> getAllByKorisnik(Korisnik korisnik) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+   
+        
+    
 
     @Override
     public void update(GenericEntity param) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+    @Override
+    public List<GenericEntity> getAll(GenericEntity param) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+    //Promena configuracije
+//ne moze korisnik, Hash Map kao naziv parametra i kljuc, prosledi kao parametar
+    @Override
+    public List<GenericEntity> getAllByKorisnik (GenericEntity param, Korisnik korisnik) throws Exception{
+        List<GenericEntity> entityList=new ArrayList<>();
+           try {
+            Connection connection=DBConnectionFactory.getInstance().getConnection();
+            Statement statement=connection.createStatement();
+            StringBuilder stringBuilder=new StringBuilder();
+            stringBuilder.append("SELECT * FROM ").append(param.getTableName()).append(" WHERE korisnikID=")
+                    .append(korisnik.getId());
+            //param.getJoinTables()
+            
+            String query=stringBuilder.toString();
+               System.out.println(query);
+            ResultSet rs=statement.executeQuery(query);
+            entityList=param.resultSetToTable(rs);
+            return entityList;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw ex;
+        }
+           
+    }
+
+   
 }

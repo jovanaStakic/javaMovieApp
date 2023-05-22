@@ -4,12 +4,13 @@
  */
 package operationFilm;
 import domain.Film;
+import domain.Korisnik;
 import operation.AbstractGenericOperation;
 /**
  *
  * @author Administrator
  */
-public class SaveMovie extends AbstractGenericOperation{
+public class SaveMovieSO extends AbstractGenericOperation{
 
     @Override
     protected void preconditions(Object param) throws Exception {
@@ -20,7 +21,7 @@ public class SaveMovie extends AbstractGenericOperation{
     }
 
     @Override
-    protected void executeOperation(Object param) throws Exception {
+    protected void executeOperation(Object param,Korisnik korisnik) throws Exception {
         repository.add(param);
     }
     

@@ -13,18 +13,18 @@ import dbrepository.Repository;
  */
 public interface DbRepository<T> extends Repository<T>{
        default public void connect() throws Exception{
-        DBConnection.getInstance().getConnection();
+        DBConnectionFactory.getInstance().getConnection();
     }
     
     default public void disconnect() throws Exception{
-        DBConnection.getInstance().getConnection().close();
+        DBConnectionFactory.getInstance().getConnection().close();
     }
     
     default public void commit() throws Exception{
-        DBConnection.getInstance().getConnection().commit();
+        DBConnectionFactory.getInstance().getConnection().commit();
     }
     
     default public void rollback() throws Exception{
-        DBConnection.getInstance().getConnection().rollback();
+        DBConnectionFactory.getInstance().getConnection().rollback();
     }
 }
