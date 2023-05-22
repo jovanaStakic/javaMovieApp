@@ -5,14 +5,16 @@
 package domain;
 
 import java.io.Serializable;
+import java.sql.ResultSet;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 /**
  *
  * @author Administrator
  */
-public class Recenzija implements Serializable{
+public class Recenzija implements Serializable,GenericEntity{
     
     private Long id;
     private Date datumKreiranja;
@@ -132,6 +134,31 @@ public class Recenzija implements Serializable{
             kratki=utisak;
         return film.getNaziv()+" "+ datumKreiranja+" ocenaFilma: "+ocenaFilma+ " utisak: "+kratki+"...";
         
+    }
+
+    @Override
+    public String getTableName() {
+        return "recenzija";
+    }
+
+    @Override
+    public String getInsertColumns() {
+        return "datumKreiranja, ocenaFilma, utisak, korisnikID, filmID";
+    }
+
+    @Override
+    public String getInsertValues() {
+       return "'" + new java.util.Date() + "'," + ocenaFilma + ",'" +utisak + "', " + korisnik.getId() + ", " + film.getId();
+    }
+
+    @Override
+    public void setId(long id) {
+        this.id=id;
+    }
+
+    @Override
+    public List<GenericEntity> resultSetToTable(ResultSet rs) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
     

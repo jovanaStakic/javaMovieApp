@@ -5,8 +5,11 @@
 package domain;
 
 import java.io.Serializable;
+import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -22,7 +25,8 @@ public class Film implements Serializable, GenericEntity{
     private Korisnik korisnik;
     private Zanr zanr;
     private Reziser reziser;
-
+    private List<Glumac> glumac;
+            
     public Film() {
     }
 
@@ -177,6 +181,21 @@ return true;
     @Override
     public void setId(long id) {
         this.id=id;
+    }
+
+    @Override
+    public List<GenericEntity> resultSetToTable(ResultSet rs) {
+        List<GenericEntity> filmovi=new ArrayList<>();
+        try{
+        while (rs.next()) {            
+            Zanr zanr=new Zanr(rs.getLong("z.zanrID"),rs.getString("z.nazivZanra"));
+                Reziser reziser=new Reziser(rs.getLong("r.reziserID"), rs.getString("r.imePrezime"), rs.getDate("r.datumRodjenja"), rs.getString("r.drzavaPorekla"));
+                Film film=new Film(rs.getLong(1), rs.getString(2), rs.getDate(3), rs.getInt(4), rs.getString(5), korisnik, zanr, reziser);
+                filmovi.add(film);
+        }}catch(Exception e){
+            e.printStackTrace();
+        }
+        return filmovi;
     }
     
     

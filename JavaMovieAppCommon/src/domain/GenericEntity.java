@@ -5,10 +5,12 @@
 package domain;
 
 import java.io.Serializable;
+import java.util.List;
+import java.sql.ResultSet;
 
 /**
  *
- * @author student2
+ * @author Administrator
  */
 public interface GenericEntity extends Serializable {
 
@@ -20,4 +22,5 @@ public interface GenericEntity extends Serializable {
 
     void setId(long id);
 
+    List<GenericEntity> resultSetToTable(ResultSet rs);
 }
