@@ -16,7 +16,8 @@ import java.util.Objects;
  *
  * @author Administrator
  */
-public class Film implements Serializable, GenericEntity{
+public class Film implements Serializable, GenericEntity {
+
     private Long id;
     private String naziv;
     private Date datumIzlaska;
@@ -25,12 +26,12 @@ public class Film implements Serializable, GenericEntity{
     private Korisnik korisnik;
     private Zanr zanr;
     private Reziser reziser;
-    private List<Glumac> glumac;
-            
+    private List<Glumac> glumci;
+
     public Film() {
     }
 
-    public Film(Long id, String naziv, Date datumIzlaska, int trajajanjeFilma, String drzavaPorekla, Korisnik korisnik, Zanr zanr, Reziser reziser) {
+    public Film(Long id, String naziv, Date datumIzlaska, int trajajanjeFilma, String drzavaPorekla, Korisnik korisnik, Zanr zanr, Reziser reziser, List<Glumac> glumci) {
         this.id = id;
         this.naziv = naziv;
         this.datumIzlaska = datumIzlaska;
@@ -39,6 +40,7 @@ public class Film implements Serializable, GenericEntity{
         this.korisnik = korisnik;
         this.zanr = zanr;
         this.reziser = reziser;
+        this.glumci = glumci;
     }
 
     public Reziser getReziser() {
@@ -134,9 +136,10 @@ public class Film implements Serializable, GenericEntity{
         if (this.trajajanjeFilma != other.trajajanjeFilma) {
             return false;
         }
-        if (!Objects.equals(this.naziv, other.naziv)) 
+        if (!Objects.equals(this.naziv, other.naziv)) {
             return false;
-        
+        }
+
 //        if (!Objects.equals(this.drzavaPorekla, other.drzavaPorekla)) {
 //            return false;
 //        }
@@ -153,12 +156,12 @@ public class Film implements Serializable, GenericEntity{
 //            return false;
 //        }
 //        return Objects.equals(this.reziser, other.reziser);
-return true;
+        return true;
     }
 
     @Override
     public String toString() {
-        return  naziv + " ( datumIzlaska: " + datumIzlaska + ", trajajanjeFilma:" + trajajanjeFilma + ", drzavaPorekla: " + drzavaPorekla +  ", zanr: " + zanr + ", reziser: " + reziser.getImePrezime() +" )";
+        return naziv + " ( datumIzlaska: " + datumIzlaska + ", trajajanjeFilma:" + trajajanjeFilma + ", drzavaPorekla: " + drzavaPorekla + ", zanr: " + zanr + ", reziser: " + reziser.getImePrezime() + " )";
     }
 
     @Override
@@ -173,29 +176,53 @@ return true;
 
     @Override
     public String getInsertValues() {
-        
-        return "'" + naziv + "','" + new java.sql.Date(datumIzlaska.getTime()) + "'," + trajajanjeFilma + ",'" + drzavaPorekla + "'," + korisnik.getId() + ","+ zanr.getId() + ","+ reziser.getId();
+
+        return "'" + naziv + "','" + new java.sql.Date(datumIzlaska.getTime()) + "'," + trajajanjeFilma + ",'" + drzavaPorekla + "'," + korisnik.getId() + "," + zanr.getId() + "," + reziser.getId();
 
     }
 
     @Override
     public void setId(long id) {
-        this.id=id;
+        this.id = id;
     }
 
     @Override
     public List<GenericEntity> resultSetToTable(ResultSet rs) {
-        List<GenericEntity> filmovi=new ArrayList<>();
-        try{
-        while (rs.next()) {            
-            Zanr zanr=new Zanr(rs.getLong("z.zanrID"),rs.getString("z.nazivZanra"));
-                Reziser reziser=new Reziser(rs.getLong("r.reziserID"), rs.getString("r.imePrezime"), rs.getDate("r.datumRodjenja"), rs.getString("r.drzavaPorekla"));
-                Film film=new Film(rs.getLong(1), rs.getString(2), rs.getDate(3), rs.getInt(4), rs.getString(5), korisnik, zanr, reziser);
+        List<GenericEntity> filmovi = new ArrayList<>();
+        try {
+            while (rs.next()) {
+                Zanr zanr = new Zanr(rs.getLong("zanr.id"), rs.getString("zanr.nazivZanra"));
+                Reziser reziser = new Reziser(rs.getLong("reziser.id"), rs.getString("reziser.imePrezime"), rs.getDate("reziser.datumRodjenja"), rs.getString("reziser.drzavaPorekla"));
+                List<Glumac> glumci = new ArrayList<>();
+                String[] idGlumaca = rs.getString("glumciID").split(",");
+                String[] imenaGlumaca = rs.getString("glumciIme").split(",");
+                for (int i = 0; i < idGlumaca.length; i++) {
+                    glumci.add(new Glumac(Long.parseLong(idGlumaca[i].trim()), imenaGlumaca[i].trim()));
+                }
+                Film film = new Film(rs.getLong("id"), rs.getString("naziv"), rs.getDate("datumIzlaska"), rs.getInt("trajanjeFilma"),
+                         rs.getString("drzavaPorekla"), korisnik, zanr, reziser, glumci);
                 filmovi.add(film);
-        }}catch(Exception e){
+            }
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return filmovi;
+    }
+
+    @Override
+    public String getJoinTables() {
+        return " JOIN zanr ON film.zanrID=zanr.ID JOIN reziser ON film.reziserID=reziser.ID LEFT JOIN uloga \n"
+                + "ON film.ID=uloga.filmID JOIN glumac ON uloga.glumacID=glumac.id ";
+    }
+
+    @Override
+    public String getAgregateFunctions() {
+        return ",GROUP_CONCAT(glumac.id SEPARATOR ', ') AS glumciID,GROUP_CONCAT(glumac.imePrezime SEPARATOR ', ') AS glumciIme";
+    }
+
+    @Override
+    public String getSpecaialQueryEndings() {
+        return " GROUP BY film.id ";
     }
     
     

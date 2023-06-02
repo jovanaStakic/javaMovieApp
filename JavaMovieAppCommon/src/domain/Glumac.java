@@ -16,26 +16,17 @@ import java.util.Objects;
 public class Glumac implements Serializable{
     private Long id;
     private String imePrezime;
-    private Date datumRodjenja;
-    private String drzavaPorekla;
+    
 
     public Glumac() {
     }
 
-    public Glumac(Long id, String imePrezime, Date datumRodjenja, String drzavaPorekla) {
+    public Glumac(Long id, String imePrezime) {
         this.id = id;
         this.imePrezime = imePrezime;
-        this.datumRodjenja = datumRodjenja;
-        this.drzavaPorekla = drzavaPorekla;
+       
     }
 
-    public String getDrzavaPorekla() {
-        return drzavaPorekla;
-    }
-
-    public void setDrzavaPorekla(String drzavaPorekla) {
-        this.drzavaPorekla = drzavaPorekla;
-    }
 
     public Long getId() {
         return id;
@@ -53,21 +44,11 @@ public class Glumac implements Serializable{
         this.imePrezime = imePrezime;
     }
 
-    public Date getDatumRodjenja() {
-        return datumRodjenja;
-    }
-
-    public void setDatumRodjenja(Date datumRodjenja) {
-        this.datumRodjenja = datumRodjenja;
-    }
-
     @Override
     public int hashCode() {
-        int hash = 7;
-        hash = 83 * hash + Objects.hashCode(this.id);
-        hash = 83 * hash + Objects.hashCode(this.imePrezime);
-        hash = 83 * hash + Objects.hashCode(this.datumRodjenja);
-        hash = 83 * hash + Objects.hashCode(this.drzavaPorekla);
+        int hash = 5;
+        hash = 13 * hash + Objects.hashCode(this.id);
+        hash = 13 * hash + Objects.hashCode(this.imePrezime);
         return hash;
     }
 
@@ -86,20 +67,18 @@ public class Glumac implements Serializable{
         if (!Objects.equals(this.imePrezime, other.imePrezime)) {
             return false;
         }
-        if (!Objects.equals(this.drzavaPorekla, other.drzavaPorekla)) {
-            return false;
-        }
-        if (!Objects.equals(this.id, other.id)) {
-            return false;
-        }
-        return Objects.equals(this.datumRodjenja, other.datumRodjenja);
+        return Objects.equals(this.id, other.id);
     }
 
     @Override
     public String toString() {
-        SimpleDateFormat format=new SimpleDateFormat("dd.MM.yyyy");
-        return imePrezime + ", datumRodjenja: " + format.format(datumRodjenja) + ", drzavaPorekla: " + drzavaPorekla + '}';
+        return "Glumac{" + "id=" + id + ", imePrezime=" + imePrezime + '}';
     }
+
+
+   
+
+
     
     
 }
