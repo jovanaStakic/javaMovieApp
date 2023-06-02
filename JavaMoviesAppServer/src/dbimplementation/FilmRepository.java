@@ -4,7 +4,7 @@
  */
 package dbimplementation;
 
-import com.mysql.cj.jdbc.PreparedStatementWrapper;
+
 import db.DBConnectionFactory;
 import java.sql.*;
 import dbrepository.Repository;
@@ -63,8 +63,8 @@ public class FilmRepository implements Repository<Film> {
             ResultSet rs=statement.executeQuery(query);
             while(rs.next()){
                 Zanr zanr=new Zanr(rs.getLong("z.zanrID"),rs.getString("z.nazivZanra"));
-                Film film=new Film(rs.getLong(1), rs.getString(2), rs.getDate(3), rs.getInt(4), rs.getString(5), korisnik, zanr, reziser);
-                filmovi.add(film);
+               // Film film=new Film(rs.getLong(1), rs.getString(2), rs.getDate(3), rs.getInt(4), rs.getString(5), korisnik, zanr, reziser);
+               // filmovi.add(film);
                 
             }
             return filmovi;
@@ -82,8 +82,8 @@ public class FilmRepository implements Repository<Film> {
             ResultSet rs=statement.executeQuery(query);
             while(rs.next()){
                 Reziser reziser=new Reziser(rs.getLong("r.reziserID"), rs.getString("r.imePrezime"), rs.getDate("r.datumRodjenja"), rs.getString("r.drzavaPorekla"));
-                Film film=new Film(rs.getLong(1), rs.getString(2), rs.getDate(3), rs.getInt(4), rs.getString(5), korisnik, zanr, reziser);
-                filmovi.add(film);
+                //Film film=new Film(rs.getLong(1), rs.getString(2), rs.getDate(3), rs.getInt(4), rs.getString(5), korisnik, zanr, reziser);
+                //filmovi.add(film);
                 
             }
             return filmovi;
@@ -103,8 +103,8 @@ public class FilmRepository implements Repository<Film> {
             while(rs.next()){
                 Zanr zanr=new Zanr(rs.getLong("z.zanrID"),rs.getString("z.nazivZanra"));
                 Reziser reziser=new Reziser(rs.getLong("r.reziserID"), rs.getString("r.imePrezime"), rs.getDate("r.datumRodjenja"), rs.getString("r.drzavaPorekla"));
-                Film film=new Film(rs.getLong(1), rs.getString(2), rs.getDate(3), rs.getInt(4), rs.getString(5), korisnik, zanr, reziser);
-                filmovi.add(film);
+                //Film film=new Film(rs.getLong(1), rs.getString(2), rs.getDate(3), rs.getInt(4), rs.getString(5), korisnik, zanr, reziser);
+                //filmovi.add(film);
                 
             }
             return filmovi;
@@ -125,8 +125,8 @@ public class FilmRepository implements Repository<Film> {
             while(rs.next()){
                 Zanr zanr=new Zanr(rs.getLong("z.zanrID"),rs.getString("z.nazivZanra"));
                 Reziser reziser=new Reziser(rs.getLong("r.reziserID"), rs.getString("r.imePrezime"), rs.getDate("r.datumRodjenja"), rs.getString("r.drzavaPorekla"));
-                Film film=new Film(rs.getLong(1), rs.getString(2), rs.getDate(3), rs.getInt(4), rs.getString(5), korisnik, zanr, reziser);
-                filmovi.add(film);
+                //Film film=new Film(rs.getLong(1), rs.getString(2), rs.getDate(3), rs.getInt(4), rs.getString(5), korisnik, zanr, reziser);
+                //filmovi.add(film);
                 
             }
             return filmovi;

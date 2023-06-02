@@ -86,11 +86,14 @@ public class RepositoryDBGeneric implements db.DbRepository<GenericEntity> {
             Connection connection=DBConnectionFactory.getInstance().getConnection();
             Statement statement=connection.createStatement();
             StringBuilder stringBuilder=new StringBuilder();
-            stringBuilder.append("SELECT * FROM ").append(param.getTableName()).append(" WHERE korisnikID=")
+            stringBuilder.append("SELECT *").append(param.getAgregateFunctions()).append(" FROM ").
+                    append(param.getTableName()).append(param.getJoinTables()).
+                    append(param.getSpecaialQueryEndings()).append(" HAVING korisnikID=")
                     .append(korisnik.getId());
             //param.getJoinTables()
-            
+               
             String query=stringBuilder.toString();
+            System.out.println(query);
                System.out.println(query);
             ResultSet rs=statement.executeQuery(query);
             entityList=param.resultSetToTable(rs);

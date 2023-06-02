@@ -42,7 +42,6 @@ public abstract class AbstractGenericOperation {
     protected abstract void executeOperation(Object param,Korisnik korisnik) throws Exception;
 
     private void commitTransaction() throws Exception {
-        System.out.println("komituje");
         repository.commit();
     }
 

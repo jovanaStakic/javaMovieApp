@@ -39,9 +39,9 @@ public class RecenzijaRepository implements dbrepository.Repository<Recenzija>{
             while(rs.next()){
                 Zanr zanr=new Zanr(rs.getLong("zanr.zanrID"),rs.getString("zanr.nazivZanra"));
                 Reziser reziser=new Reziser(rs.getLong("rez.reziserID"), rs.getString("rez.imePrezime"), rs.getDate("rez.datumRodjenja"), rs.getString("rez.drzavaPorekla"));
-                Film film=new Film(rs.getLong("f.filmID"), rs.getString("f.naziv"), rs.getDate("f.datumIzlaska"), rs.getInt("f.trajanjeFilma"), rs.getString("f.drzavaPorekla"), korisnik, zanr, reziser);
-                Recenzija recenzija=new Recenzija(rs.getLong("r.recenzijaID"), rs.getDate("r.datumKreiranja"), rs.getInt("r.ocenaFilma"), rs.getString("r.utisak"), korisnik, film);
-                recenzije.add(recenzija);
+               // Film film=new Film(rs.getLong("f.filmID"), rs.getString("f.naziv"), rs.getDate("f.datumIzlaska"), rs.getInt("f.trajanjeFilma"), rs.getString("f.drzavaPorekla"), korisnik, zanr, reziser);
+               // Recenzija recenzija=new Recenzija(rs.getLong("r.recenzijaID"), rs.getDate("r.datumKreiranja"), rs.getInt("r.ocenaFilma"), rs.getString("r.utisak"), korisnik, film);
+                //recenzije.add(recenzija);
                 
             }
             

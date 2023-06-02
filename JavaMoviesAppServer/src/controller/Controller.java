@@ -31,7 +31,7 @@ public class Controller {
     private final ReziserRepository reziserRepository;
     private final RecenzijaRepository recenzijaRepository;
     private final ListaRepository listaRepository;
-    private final RepositoryDBGeneric genericRepository;
+  
     
     private Controller() {
         korisnikRepository = new KorisnikRepository();
@@ -40,7 +40,7 @@ public class Controller {
         reziserRepository = new ReziserRepository();
         recenzijaRepository = new RecenzijaRepository();
         listaRepository= new ListaRepository();
-        genericRepository=new RepositoryDBGeneric();
+      
     }
 
     public static Controller getInstance() {
