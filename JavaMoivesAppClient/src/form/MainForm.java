@@ -5,6 +5,7 @@
 package form;
 
 import domain.Korisnik;
+import javax.swing.JFrame;
 
 /**
  *
@@ -17,7 +18,7 @@ public class MainForm extends javax.swing.JFrame {
      */
     public MainForm(Korisnik korisnik) {
         initComponents();
-        setLocationRelativeTo(null);
+        setExtendedState(JFrame.MAXIMIZED_BOTH);
         this.korisinik=korisnik;
         lblKorisnik.setText("Dobro dosli "+korisnik.getIme()+" "+korisnik.getPrezime());
     }

@@ -11,6 +11,7 @@ import domain.Reziser;
 import domain.Zanr;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -175,7 +176,7 @@ Korisnik korisnik;
         String drzavaPorekla=txtDrzavaPorekla.getText().trim();
         Zanr zanr=(Zanr) cbdZanr.getSelectedItem();
         Reziser reziser=(Reziser) cbdReziser.getSelectedItem();
-        Film noviFilm=new Film(-1l, nazivFilma, datumIzlaska, trajanjeFilma, drzavaPorekla, korisnik, zanr, reziser);
+        Film noviFilm=new Film(-1l, nazivFilma, datumIzlaska, trajanjeFilma, drzavaPorekla, korisnik, zanr, reziser,new ArrayList<>());
     try {
         communication.Communication.getInstance().saveFilm(noviFilm);
         JOptionPane.showMessageDialog(this, "Uspešno sacuvan film!");

@@ -10,6 +10,7 @@ import domain.Reziser;
 import domain.Zanr;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -199,7 +200,7 @@ public class KreirajFilmDijalog extends javax.swing.JDialog {
         Zanr zanr=(Zanr) cbdZanr.getSelectedItem();
         Reziser reziser=(Reziser) cbdReziser.getSelectedItem();
         MainForm mn=(MainForm) getParent();
-        Film noviFilm=new Film(-1l, nazivFilma, datumIzlaska, trajanjeFilma, drzavaPorekla, mn.getKorisnik(), zanr, reziser);
+        Film noviFilm=new Film(-1l, nazivFilma, datumIzlaska, trajanjeFilma, drzavaPorekla, mn.getKorisnik(), zanr, reziser,new ArrayList<>());
         try {
             communication.Communication.getInstance().saveFilm(noviFilm);
             JOptionPane.showMessageDialog(this, "Uspešno sacuvan film!");
@@ -222,7 +223,7 @@ public class KreirajFilmDijalog extends javax.swing.JDialog {
         Zanr zanr=(Zanr) cbdZanr.getSelectedItem();
         Reziser reziser=(Reziser) cbdReziser.getSelectedItem();
         KreirajListuForma mn=(KreirajListuForma) getOwner();
-        Film noviFilm=new Film(-1l, nazivFilma, datumIzlaska, trajanjeFilma, drzavaPorekla, mn.getKorisnik(), zanr, reziser);
+        Film noviFilm=new Film(-1l, nazivFilma, datumIzlaska, trajanjeFilma, drzavaPorekla, mn.getKorisnik(), zanr, reziser,new ArrayList<>());
         mn.addFilm(noviFilm);
         this.dispose();
     }//GEN-LAST:event_btnKreirajFilmActionPerformed
