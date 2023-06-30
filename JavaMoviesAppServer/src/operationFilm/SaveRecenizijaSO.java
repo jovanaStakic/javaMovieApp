@@ -20,7 +20,7 @@ public class SaveRecenizijaSO extends AbstractGenericOperation{
     }
 
     @Override
-    protected void executeOperation(Object param, Korisnik korisnik) throws Exception {
+    protected void executeOperation(Object param) throws Exception {
         repository.add(param);
     }
     

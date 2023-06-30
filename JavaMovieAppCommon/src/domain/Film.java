@@ -16,7 +16,7 @@ import java.util.Objects;
  *
  * @author Administrator
  */
-public class Film implements Serializable, GenericEntity {
+public class Film extends SearchingEntity implements Serializable {
 
     private Long id;
     private String naziv;
@@ -187,7 +187,7 @@ public class Film implements Serializable, GenericEntity {
     }
 
     @Override
-    public List<GenericEntity> resultSetToTable(ResultSet rs) {
+    public List<GenericEntity> resultSetToList(ResultSet rs) {
         List<GenericEntity> filmovi = new ArrayList<>();
         try {
             while (rs.next()) {
@@ -200,7 +200,7 @@ public class Film implements Serializable, GenericEntity {
                     glumci.add(new Glumac(Long.parseLong(idGlumaca[i].trim()), imenaGlumaca[i].trim()));
                 }
                 Film film = new Film(rs.getLong("id"), rs.getString("naziv"), rs.getDate("datumIzlaska"), rs.getInt("trajanjeFilma"),
-                         rs.getString("drzavaPorekla"), korisnik, zanr, reziser, glumci);
+                        rs.getString("drzavaPorekla"), korisnik, zanr, reziser, glumci);
                 filmovi.add(film);
             }
         } catch (Exception e) {
@@ -224,6 +224,24 @@ public class Film implements Serializable, GenericEntity {
     public String getSpecaialQueryEndings() {
         return " GROUP BY film.id ";
     }
-    
-    
+
+    @Override
+    public String getKorisnikIdentification() {
+        return "HAVING korisnikID=" + korisnik.getId();
+    }
+
+    @Override
+    public void setSearchCriteria() {
+        if (zanr != null) {
+            searchCriteria.put("zanrID", zanr.getId().toString());
+        }
+
+        if (reziser != null) {
+            searchCriteria.put("reziserID", reziser.getId().toString());
+        }
+
+        if (naziv != null) {
+            searchCriteria.put("naziv", "'"+naziv+"'");
+        }
+    }
 }

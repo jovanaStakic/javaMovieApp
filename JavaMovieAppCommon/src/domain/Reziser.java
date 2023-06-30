@@ -5,15 +5,19 @@
 package domain;
 
 import java.io.Serializable;
+import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
  *
  * @author Administrator
  */
-public class Reziser implements Serializable{
+public class Reziser implements Serializable,GenericEntity{
     private Long id;
     private String imePrezime;
     private Date datumRodjenja;
@@ -99,6 +103,64 @@ public class Reziser implements Serializable{
     public String toString() {
         SimpleDateFormat format=new SimpleDateFormat("dd.MM.yyyy");
         return imePrezime + "( datumRodjenja: " + format.format(datumRodjenja) + ", drzavaPorekla: " + drzavaPorekla +" )" ;
+    }
+
+    @Override
+    public String getTableName() {
+        return "reziser";
+    }
+
+    @Override
+    public String getInsertColumns() {
+        return "imePrezime, datumRodjenja, drzavaPorekla";
+    }
+
+    @Override
+    public String getInsertValues() {
+        return "'"+imePrezime+"', '"+new java.sql.Date(datumRodjenja.getTime())+"', "+drzavaPorekla;
+    }
+
+    @Override
+    public void setId(long id) {
+        this.id=id;
+    }
+
+    @Override
+    public List<GenericEntity> resultSetToList(ResultSet rs) {
+        List<GenericEntity> reziseri=new ArrayList<>();
+        try {
+            while(rs.next()){
+                Reziser r=new Reziser(rs.getLong(1), rs.getString(2), rs.getDate(3), rs.getString(4));
+                reziseri.add(r);
+            }
+        } catch (Exception e) {
+        }
+        return reziseri;
+    }
+
+    @Override
+    public String getJoinTables() {
+        return "";
+    }
+
+    @Override
+    public String getAgregateFunctions() {
+        return "";
+    }
+
+    @Override
+    public String getSpecaialQueryEndings() {
+        return "";
+    }
+
+    @Override
+    public String getKorisnikIdentification() {
+        return "";
+    }
+
+    @Override
+    public Map<String, String> getSearchCriteria() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
     

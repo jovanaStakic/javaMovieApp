@@ -102,5 +102,10 @@ public class RecenzijaRepository implements dbrepository.Repository<Recenzija>{
     public List<Recenzija> getAllByKorisnik(Recenzija param, Korisnik korisnik) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
+    @Override
+    public List<Recenzija> find(Recenzija param) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     
 }

@@ -4,7 +4,6 @@
  */
 package operationFilm;
 import domain.Film;
-import domain.Korisnik;
 import operation.AbstractGenericOperation;
 /**
  *
@@ -18,10 +17,12 @@ public class SaveMovieSO extends AbstractGenericOperation{
             throw new Exception("Neispravan film objekat!");
         }
         Film film = (Film) param;
+        if(film.getKorisnik()==null)
+            throw new Exception("Korisnik nije autentifikovan!");
     }
 
     @Override
-    protected void executeOperation(Object param,Korisnik korisnik) throws Exception {
+    protected void executeOperation(Object param) throws Exception {
         repository.add(param);
     }
     

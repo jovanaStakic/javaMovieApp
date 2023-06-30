@@ -7,6 +7,7 @@ package domain;
 import java.io.Serializable;
 import java.util.List;
 import java.sql.ResultSet;
+import java.util.Map;
 
 /**
  *
@@ -22,11 +23,15 @@ public interface GenericEntity extends Serializable {
 
     void setId(long id);
 
-    List<GenericEntity> resultSetToTable(ResultSet rs);
-    
+    List<GenericEntity> resultSetToList(ResultSet rs);
+
     String getJoinTables();
-    
+
     String getAgregateFunctions();
-    
+
     String getSpecaialQueryEndings();
+
+    String getKorisnikIdentification();
+    
+    Map<String, String> getSearchCriteria();
 }

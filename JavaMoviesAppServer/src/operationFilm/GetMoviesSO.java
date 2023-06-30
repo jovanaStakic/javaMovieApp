@@ -14,22 +14,25 @@ import operation.AbstractGenericOperation;
  *
  * @author Administrator
  */
-public class GetMoviesSO extends AbstractGenericOperation{
+public class GetMoviesSO extends AbstractGenericOperation {
+
     List<GenericEntity> filmovi;
+
     @Override
     protected void preconditions(Object param) throws Exception {
-         if (!(param instanceof Film)) {
+        if (!(param instanceof Film)) {
             throw new Exception("Neispravan film objekat!");
         }
         Film film = (Film) param;
-        
+
     }
 
     @Override
-    protected void executeOperation(Object param,Korisnik korisnik) throws Exception {
-        filmovi=repository.getAllByKorisnik(param, korisnik);
+    protected void executeOperation(Object param) throws Exception {
+        filmovi = repository.getAll(param);
     }
-      public List<GenericEntity> getMovies() {
+
+    public List<GenericEntity> getMovies() {
         return filmovi;
     }
 }

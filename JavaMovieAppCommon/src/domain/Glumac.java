@@ -5,15 +5,19 @@
 package domain;
 
 import java.io.Serializable;
+import java.sql.ResultSet;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
  *
  * @author Administrator
  */
-public class Glumac implements Serializable{
+public class Glumac implements Serializable,GenericEntity{
     private Long id;
     private String imePrezime;
     
@@ -72,7 +76,67 @@ public class Glumac implements Serializable{
 
     @Override
     public String toString() {
-        return "Glumac{" + "id=" + id + ", imePrezime=" + imePrezime + '}';
+        return imePrezime ;
+    }
+
+    @Override
+    public String getTableName() {
+        return "glumac";
+    }
+
+    @Override
+    public String getInsertColumns() {
+        return "imePrezime";
+    }
+    
+
+    @Override
+    public String getInsertValues() {
+        return "'"+imePrezime+"'";
+    }
+
+    @Override
+    public void setId(long id) {
+        this.id=id;
+    }
+
+    @Override
+    public List<GenericEntity> resultSetToList(ResultSet rs) {
+        List<GenericEntity> glumci=new ArrayList<>();
+        try{
+            while(rs.next()){
+                Glumac glumac=new Glumac(rs.getLong(1), rs.getString(2));
+                glumci.add(glumac);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return glumci;
+    }
+
+    @Override
+    public String getJoinTables() {
+        return "";
+    }
+
+    @Override
+    public String getAgregateFunctions() {
+        return "";
+    }
+
+    @Override
+    public String getSpecaialQueryEndings() {
+        return "";
+    }
+
+    @Override
+    public String getKorisnikIdentification() {
+        return "";
+    }
+
+    @Override
+    public Map<String, String> getSearchCriteria() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 

@@ -69,6 +69,17 @@ public class Communication {
             throw response.getException();
         }
     }
+    
+      public List<Glumac> getGlumci() throws Exception{
+        Request request=new Request(null, Operation.GET_GLUMCI);
+        sender.send(request);
+        Response response=(Response) reciever.recieve();
+         if(response.getException()==null){
+            return (List<Glumac>) response.getResult();
+        }else{
+            throw response.getException();
+        }
+    }
       public List<Zanr> getZanrovi() throws Exception{
         Request request=new Request(null, Operation.GET_ZANROVI);
         sender.send(request);
@@ -79,8 +90,8 @@ public class Communication {
             throw response.getException();
         }
     }
-      public List<Film> getFilmByZanr(Zanr zanr) throws Exception{
-        Request request=new Request(zanr, Operation.FIND_BY_ZANR);
+       public List<Film> findMovies(Film film) throws Exception{
+        Request request=new Request(film, Operation.FIND_MOVIES);
         sender.send(request);
         Response response=(Response) reciever.recieve();
          if(response.getException()==null){
@@ -89,27 +100,7 @@ public class Communication {
             throw response.getException();
         }
       }
-       public List<Film> getFilmByReziser(Reziser reziser) throws Exception{
-        Request request=new Request(reziser, Operation.FIND_BY_REZISER);
-        sender.send(request);
-        Response response=(Response) reciever.recieve();
-         if(response.getException()==null){
-            return (List<Film>) response.getResult();
-        }else{
-            throw response.getException();
-        }
-      }
-
-    public List<Film> getFilmByNaziv(String naziv) throws Exception {
-         Request request=new Request(naziv, Operation.FIND_BY_NAZIV);
-        sender.send(request);
-        Response response=(Response) reciever.recieve();
-         if(response.getException()==null){
-            return (List<Film>) response.getResult();
-        }else{
-            throw response.getException();
-        }
-    }
+  
 
     public List<Film> getFilmovi() throws Exception {
         Request request=new Request(null, Operation.GET_FILMOVI);

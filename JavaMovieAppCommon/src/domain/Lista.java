@@ -5,14 +5,16 @@
 package domain;
 
 import java.io.Serializable;
+import java.sql.ResultSet;
 import java.util.Date;
 import java.util.Objects;
 import java.util.List;
+import java.util.Map;
 /**
  *
  * @author Administrator
  */
-public class Lista implements Serializable{
+public class Lista implements Serializable,GenericEntity{
     
     private Long id;
     private String nazivListe;
@@ -108,6 +110,56 @@ public class Lista implements Serializable{
 
     public void setFilmovi(List<Film> filmovi) {
         this.filmovi = filmovi;
+    }
+
+    @Override
+    public String getTableName() {
+        return "lista";
+    }
+
+    @Override
+    public String getInsertColumns() {
+        return "nazivListe,datumKreiranja,korisnikID";
+    }
+
+    @Override
+    public String getInsertValues() {
+        return "'"+nazivListe+"','"+new java.sql.Date(datumKreiranja.getTime())+"',"+korisnik.getId();
+    }
+
+    @Override
+    public void setId(long id) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public List<GenericEntity> resultSetToList(ResultSet rs) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public String getJoinTables() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public String getAgregateFunctions() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public String getSpecaialQueryEndings() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public String getKorisnikIdentification() {
+         return  "HAVING korisnikID="+korisnik.getId();
+    }
+
+    @Override
+    public Map<String, String> getSearchCriteria() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
     

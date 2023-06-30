@@ -9,6 +9,7 @@ import communication.Request;
 import communication.Response;
 import communication.Sender;
 import domain.Film;
+import domain.GenericEntity;
 import domain.Korisnik;
 import domain.Lista;
 import domain.Recenzija;
@@ -18,6 +19,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.List;
 
 
 /**
@@ -59,17 +61,16 @@ public class HandleClients extends Thread{
                     case GET_REZISERI:
                         response.setResult(controller.Controller.getInstance().getReziseri());
                         break;
-                   case FIND_BY_ZANR:
-                        response.setResult(controller.Controller.getInstance().findByZanr((Zanr) request.getArgument(), prijavljenKorisnik));
+                    case GET_GLUMCI:
+                        response.setResult(controller.Controller.getInstance().getGlumci());
                         break;
-                    case FIND_BY_REZISER:
-                        response.setResult(controller.Controller.getInstance().findByReziser((Reziser) request.getArgument(), prijavljenKorisnik));
-                        break;
-                    case FIND_BY_NAZIV:
-                        response.setResult(controller.Controller.getInstance().findByNaziv((String) request.getArgument(), prijavljenKorisnik));
+                    case FIND_MOVIES:
+                        Film film=(Film) request.getArgument();
+                        film.setKorisnik(prijavljenKorisnik);
+                        response.setResult(controller.Controller.getInstance().findMovies(film));
                         break;
                     case GET_FILMOVI:
-                        response.setResult(controller.Controller.getInstance().getAllFilmoviByKorisnik(prijavljenKorisnik));
+                        response.setResult(controller.Controller.getInstance().getAll(new Film(Long.MIN_VALUE, null, null, Integer.MIN_VALUE, null, prijavljenKorisnik, null, null, null)));
                         break;
                     case SAVE_RECENZIJA:
                         controller.Controller.getInstance().saveRecenzija((Recenzija) request.getArgument(),prijavljenKorisnik);

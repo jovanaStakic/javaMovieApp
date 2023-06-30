@@ -8,13 +8,16 @@ import dbimplementation.FilmRepository;
 import dbimplementation.KorisnikRepository;
 import dbimplementation.ListaRepository;
 import dbimplementation.RecenzijaRepository;
-import dbimplementation.RepositoryDBGeneric;
 import dbimplementation.ReziserRepository;
 import dbimplementation.ZanrRepository;
 import domain.*;
 import java.util.List;
 import operation.AbstractGenericOperation;
+import operationFilm.FindMoviesSO;
+import operationFilm.GetGlumciSO;
 import operationFilm.GetMoviesSO;
+import operationFilm.GetReziseriSO;
+import operationFilm.GetZanroviSO;
 import operationFilm.SaveMovieSO;
 import operationFilm.SaveRecenizijaSO;
 
@@ -31,16 +34,15 @@ public class Controller {
     private final ReziserRepository reziserRepository;
     private final RecenzijaRepository recenzijaRepository;
     private final ListaRepository listaRepository;
-  
-    
+
     private Controller() {
         korisnikRepository = new KorisnikRepository();
         filmRepository = new FilmRepository();
         zanrRepository = new ZanrRepository();
         reziserRepository = new ReziserRepository();
         recenzijaRepository = new RecenzijaRepository();
-        listaRepository= new ListaRepository();
-      
+        listaRepository = new ListaRepository();
+
     }
 
     public static Controller getInstance() {
@@ -61,41 +63,47 @@ public class Controller {
         throw new Exception("Pogrešno korisničko ime i/ili lozinka!");
     }
 
-    public void saveFilm(Film film,Korisnik korisnik) throws Exception {
-        AbstractGenericOperation saveMovie=new SaveMovieSO();
-        saveMovie.execute(film,korisnik);
-        
+    public void saveFilm(Film film, Korisnik korisnik) throws Exception {
+        AbstractGenericOperation saveMovie = new SaveMovieSO();
+        saveMovie.execute(film);
+
     }
 
-    public List<Zanr> getZanrovi() {
-        return zanrRepository.getAll();
+    public List<GenericEntity> getZanrovi() throws Exception {
+        AbstractGenericOperation getAll = new GetZanroviSO();
+        getAll.execute(new Zanr());
+        return ((GetZanroviSO) getAll).getZanrovi();
     }
 
-    public List<Reziser> getReziseri() {
-        return reziserRepository.getAll();
+    public List<GenericEntity> getReziseri() throws Exception {
+        AbstractGenericOperation getAll = new GetReziseriSO();
+        getAll.execute(new Reziser());
+        return ((GetReziseriSO) getAll).getReziseri();
+    }
+    
+    public List<GenericEntity> findMovies(Film film) throws Exception{
+        AbstractGenericOperation findAll = new FindMoviesSO();
+        findAll.execute(film);
+        return ((FindMoviesSO) findAll).getMovies();
+    }
+    
+   
+
+//    public List<GenericEntity> getAllFilmoviByKorisnik(Korisnik korisnik) throws Exception {
+//        AbstractGenericOperation getAll=new GetMoviesSO();
+//        getAll.execute(new Film());
+//        return ((GetMoviesSO)getAll).getMovies();
+//    }
+    
+    public List<GenericEntity> getAll(Film film) throws Exception {
+        AbstractGenericOperation getAll = new GetMoviesSO();
+        getAll.execute(film);
+        return ((GetMoviesSO) getAll).getMovies();
     }
 
-    public List<Film> findByReziser(Reziser reziser, Korisnik korisnik) {
-        return filmRepository.findAllByReziser(reziser, korisnik);
-    }
-
-    public List<Film> findByZanr(Zanr zanr, Korisnik korisnik) {
-        return filmRepository.findAllByZanr(zanr, korisnik);
-    }
-
-    public List<Film> findByNaziv(String naziv, Korisnik korisnik) {
-        return filmRepository.findAllByNaziv(naziv, korisnik);
-    }
-
-    public List<GenericEntity> getAllFilmoviByKorisnik(Korisnik korisnik) throws Exception {
-        AbstractGenericOperation getAllByKorisnik=new GetMoviesSO();
-        getAllByKorisnik.execute(new Film(), korisnik);
-        return ((GetMoviesSO)getAllByKorisnik).getMovies();
-    }
-
-    public void saveRecenzija(Recenzija recezija,Korisnik korisnik) throws Exception {
-        AbstractGenericOperation saveRecenzija=new SaveRecenizijaSO();
-       saveRecenzija.execute(recezija, korisnik);
+    public void saveRecenzija(Recenzija recezija, Korisnik korisnik) throws Exception {
+        AbstractGenericOperation saveRecenzija = new SaveRecenizijaSO();
+        saveRecenzija.execute(recezija);
     }
 
     public List<Recenzija> getRecenzijaByKorisnik(Korisnik korisnik) {
@@ -105,7 +113,14 @@ public class Controller {
     public void deleteRecenzija(Recenzija recenzija) throws Exception {
         recenzijaRepository.delete(recenzija);
     }
-    public void addLista(Lista lista) throws Exception{
+
+    public void addLista(Lista lista) throws Exception {
         listaRepository.add(lista);
+    }
+
+    public Object getGlumci() throws Exception {
+        AbstractGenericOperation getAll=new GetGlumciSO();
+        getAll.execute(new Glumac());
+        return ((GetGlumciSO)getAll).getGlumci();
     }
 }

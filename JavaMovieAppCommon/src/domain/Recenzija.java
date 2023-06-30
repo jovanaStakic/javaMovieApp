@@ -6,8 +6,10 @@ package domain;
 
 import java.io.Serializable;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 
 /**
@@ -157,22 +159,32 @@ public class Recenzija implements Serializable,GenericEntity{
     }
 
     @Override
-    public List<GenericEntity> resultSetToTable(ResultSet rs) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public List<GenericEntity> resultSetToList(ResultSet rs) {
+        return new ArrayList<>();
     }
 
     @Override
     public String getJoinTables() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "";
     }
 
     @Override
     public String getAgregateFunctions() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "";
     }
 
     @Override
     public String getSpecaialQueryEndings() {
+        return "";
+    }
+
+    @Override
+    public String getKorisnikIdentification() {
+         return  "HAVING korisnikID="+korisnik.getId();
+    }
+
+    @Override
+    public Map<String, String> getSearchCriteria() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     

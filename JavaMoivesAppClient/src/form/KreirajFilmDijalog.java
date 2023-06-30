@@ -6,6 +6,7 @@ package form;
 
 import communication.Communication;
 import domain.Film;
+import domain.Glumac;
 import domain.Reziser;
 import domain.Zanr;
 import java.text.ParseException;
@@ -23,7 +24,7 @@ import javax.swing.JOptionPane;
  * @author Administrator
  */
 public class KreirajFilmDijalog extends javax.swing.JDialog {
-
+    List<Glumac> glumci=new ArrayList<>();
     /**
      * Creates new form KreirajFilmDijalog
      */
@@ -68,6 +69,9 @@ public class KreirajFilmDijalog extends javax.swing.JDialog {
         txtDatumIzlaska = new javax.swing.JTextField();
         cbdReziser = new javax.swing.JComboBox();
         btnKreirajFilm = new javax.swing.JButton();
+        cbdGlumac = new javax.swing.JComboBox();
+        lblGlumci = new javax.swing.JLabel();
+        btnDodajGlumca = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -103,6 +107,17 @@ public class KreirajFilmDijalog extends javax.swing.JDialog {
             }
         });
 
+        cbdGlumac.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        lblGlumci.setText("Glumci:");
+
+        btnDodajGlumca.setText("Dodaj glumca");
+        btnDodajGlumca.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDodajGlumcaActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -117,21 +132,27 @@ public class KreirajFilmDijalog extends javax.swing.JDialog {
                             .addComponent(jLabel3)
                             .addComponent(jLabel4)
                             .addComponent(jLabel6)
-                            .addComponent(jLabel5))
+                            .addComponent(jLabel5)
+                            .addComponent(lblGlumci))
                         .addGap(34, 34, 34)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txtNazivFilma)
                             .addComponent(txtTrajanjeFilma)
-                            .addComponent(cbdZanr, javax.swing.GroupLayout.Alignment.TRAILING, 0, 448, Short.MAX_VALUE)
+                            .addComponent(cbdZanr, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(cbdReziser, javax.swing.GroupLayout.Alignment.TRAILING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(txtDrzavaPorekla)
-                            .addComponent(txtDatumIzlaska)))
+                            .addComponent(txtDatumIzlaska)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(cbdGlumac, javax.swing.GroupLayout.PREFERRED_SIZE, 481, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnDodajGlumca)
+                                .addGap(0, 0, Short.MAX_VALUE))))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
                         .addGap(404, 404, 404)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(btnDodajFilm, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(btnKreirajFilm, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addGap(42, 42, 42))
+                .addGap(40, 40, 40))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -163,11 +184,16 @@ public class KreirajFilmDijalog extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(cbdReziser, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
-                .addGap(78, 78, 78)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnKreirajFilm, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnDodajFilm))
-                .addContainerGap(21, Short.MAX_VALUE))
+                    .addComponent(cbdGlumac, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblGlumci)
+                    .addComponent(btnDodajGlumca))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 129, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnDodajFilm)
+                    .addComponent(btnKreirajFilm, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(24, 24, 24))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -200,7 +226,7 @@ public class KreirajFilmDijalog extends javax.swing.JDialog {
         Zanr zanr=(Zanr) cbdZanr.getSelectedItem();
         Reziser reziser=(Reziser) cbdReziser.getSelectedItem();
         MainForm mn=(MainForm) getParent();
-        Film noviFilm=new Film(-1l, nazivFilma, datumIzlaska, trajanjeFilma, drzavaPorekla, mn.getKorisnik(), zanr, reziser,new ArrayList<>());
+        Film noviFilm=new Film(-1l, nazivFilma, datumIzlaska, trajanjeFilma, drzavaPorekla, mn.getKorisnik(), zanr, reziser,glumci);
         try {
             communication.Communication.getInstance().saveFilm(noviFilm);
             JOptionPane.showMessageDialog(this, "Uspešno sacuvan film!");
@@ -227,6 +253,11 @@ public class KreirajFilmDijalog extends javax.swing.JDialog {
         mn.addFilm(noviFilm);
         this.dispose();
     }//GEN-LAST:event_btnKreirajFilmActionPerformed
+
+    private void btnDodajGlumcaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDodajGlumcaActionPerformed
+         Glumac glumac=(Glumac) cbdGlumac.getSelectedItem();
+        glumci.add(glumac);
+    }//GEN-LAST:event_btnDodajGlumcaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -260,7 +291,9 @@ public class KreirajFilmDijalog extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDodajFilm;
+    private javax.swing.JButton btnDodajGlumca;
     private javax.swing.JButton btnKreirajFilm;
+    private javax.swing.JComboBox cbdGlumac;
     private javax.swing.JComboBox cbdReziser;
     private javax.swing.JComboBox cbdZanr;
     private javax.swing.JLabel jLabel1;
@@ -270,6 +303,7 @@ public class KreirajFilmDijalog extends javax.swing.JDialog {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel lblGlumci;
     private javax.swing.JTextField txtDatumIzlaska;
     private javax.swing.JTextField txtDrzavaPorekla;
     private javax.swing.JTextField txtNazivFilma;
@@ -278,15 +312,20 @@ public class KreirajFilmDijalog extends javax.swing.JDialog {
 
       private void prepareView() {
     try {
-        List<Zanr> zanrovi=Communication.getInstance().getZanrovi();
+         List<Zanr> zanrovi=Communication.getInstance().getZanrovi();
         List<Reziser> reziseri=Communication.getInstance().getReziseri();
+        List<Glumac> glumci=Communication.getInstance().getGlumci();
         cbdReziser.removeAllItems();
         cbdZanr.removeAllItems();
+        cbdGlumac.removeAllItems();
         for (Reziser reziser : reziseri) {
             cbdReziser.addItem(reziser);
         }
         for (Zanr zanr : zanrovi) {
             cbdZanr.addItem(zanr);
+        }
+        for (Glumac glumac : glumci) {
+            cbdGlumac.addItem(glumac);
         }
     } catch (Exception ex) {
         Logger.getLogger(KreirajFilmForma.class.getName()).log(Level.SEVERE, null, ex);

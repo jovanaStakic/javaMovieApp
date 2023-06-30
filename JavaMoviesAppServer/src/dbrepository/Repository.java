@@ -13,10 +13,10 @@ import java.util.List;
  * @param <T>
  */
 public interface Repository<T> {
-    List<T> getAll(T param) ;
+    List<T> getAll(T param) throws Exception;
     List<T> getAllByKorisnik(T param,Korisnik korisnik) throws Exception;
     void add(T param) throws Exception;
     void update(T param) throws Exception;
     void delete(T param) throws Exception;
-    
+    List<T> find(T param) throws Exception;
 }

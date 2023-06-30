@@ -2,8 +2,8 @@ package operation;
 
 import db.DbRepository;
 
-import dbimplementation.RepositoryDBGeneric;
-import domain.Korisnik;
+import dbimplementation.GenericRepository;
+
 
 /**
  * @author Administrator
@@ -13,14 +13,14 @@ public abstract class AbstractGenericOperation {
     protected final DbRepository repository;
 
     public AbstractGenericOperation() {
-        this.repository = new RepositoryDBGeneric();
+        this.repository = new GenericRepository();
     }
 
-    public final void execute(Object param,Korisnik korisnik) throws Exception {
+    public final void execute(Object param) throws Exception {
         try {
             preconditions(param);
             startTransaction();
-            executeOperation(param,korisnik);
+            executeOperation(param);
             commitTransaction();
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -39,7 +39,7 @@ public abstract class AbstractGenericOperation {
     }
 
   
-    protected abstract void executeOperation(Object param,Korisnik korisnik) throws Exception;
+    protected abstract void executeOperation(Object param) throws Exception;
 
     private void commitTransaction() throws Exception {
         repository.commit();

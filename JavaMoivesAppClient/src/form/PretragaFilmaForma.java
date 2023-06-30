@@ -200,8 +200,9 @@ public class PretragaFilmaForma extends javax.swing.JDialog {
     private void btnReziserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReziserActionPerformed
 
         Reziser reziser = (Reziser) cbdReziser.getSelectedItem();
+        Film film=new Film(Long.MIN_VALUE, null, null, Integer.MIN_VALUE, null, null, null, reziser, null);
         try {
-            List<Film> filmovi = Communication.getInstance().getFilmByReziser(reziser);
+            List<Film> filmovi = Communication.getInstance().findMovies(film);
             if(filmovi.isEmpty())
                 JOptionPane.showMessageDialog(this, "Nema filmova za zadati kriterijum pretrage!");
             else
@@ -216,7 +217,8 @@ public class PretragaFilmaForma extends javax.swing.JDialog {
 
         Zanr zanr = (Zanr) cbdZanr.getSelectedItem();
         try {
-            List<Film> filmovi = Communication.getInstance().getFilmByZanr(zanr);
+              Film film=new Film(Long.MIN_VALUE, null, null, Integer.MIN_VALUE, null, null, zanr, null, null);
+            List<Film> filmovi = Communication.getInstance().findMovies(film);
             if(filmovi.isEmpty())
                 JOptionPane.showMessageDialog(this, "Nema filmova za zadati kriterijum pretrage!");
             else
@@ -230,7 +232,9 @@ public class PretragaFilmaForma extends javax.swing.JDialog {
     private void btnNazivActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNazivActionPerformed
         String naziv = txtNaziv.getText().trim();
         try {
-            List<Film> filmovi = Communication.getInstance().getFilmByNaziv(naziv);
+            
+            Film film=new Film(Long.MIN_VALUE, naziv, null, Integer.MIN_VALUE, null, null, null, null, null);
+            List<Film> filmovi = Communication.getInstance().findMovies(film);
             if(filmovi.isEmpty())
                 JOptionPane.showMessageDialog(this, "Nema filmova za zadati kriterijum pretrage!");
             else

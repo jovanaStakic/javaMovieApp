@@ -12,8 +12,9 @@ public class DBLOGIN {
     public static void main(String[] args) {
        String s="1, 2, 3";
        String[] d=s.split(",");
-       
+       String sr=null;
+        System.out.println(sr);
        Long l= Long.parseLong(d[2].trim());
-        System.out.println(l);
+       // System.out.println(l);
     }
 }

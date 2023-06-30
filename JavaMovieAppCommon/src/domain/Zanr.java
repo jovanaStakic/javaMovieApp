@@ -5,13 +5,21 @@
 package domain;
 
 import java.io.Serializable;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 import java.util.Objects;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
  * @author Administrator
  */
-public class Zanr implements Serializable{
+public class Zanr implements Serializable,GenericEntity
+{
     private Long id;
     private String nazivZanra;
 
@@ -69,6 +77,66 @@ public class Zanr implements Serializable{
     @Override
     public String toString() {
         return nazivZanra ;
+    }
+
+    @Override
+    public String getTableName() {
+        return "zanr";
+    }
+
+    @Override
+    public String getInsertColumns() {
+        return "nazivZanra";
+    }
+
+    @Override
+    public String getInsertValues() {
+        return "'"+nazivZanra+"'";
+    }
+
+    @Override
+    public void setId(long id) {
+        this.id=id;
+    }
+
+    @Override
+    public List<GenericEntity> resultSetToList(ResultSet rs) {
+        List<GenericEntity> zanrovi=new ArrayList<>();
+        try {
+            while(rs.next()){
+                Zanr z=new Zanr(rs.getLong(1), rs.getString(2));
+                zanrovi.add(z);
+            }
+            
+        } catch (SQLException ex) {
+            Logger.getLogger(Zanr.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return zanrovi;
+    }
+
+    @Override
+    public String getJoinTables() {
+        return "";
+    }
+
+    @Override
+    public String getAgregateFunctions() {
+        return "";
+    }
+
+    @Override
+    public String getSpecaialQueryEndings() {
+        return "";
+    }
+
+    @Override
+    public String getKorisnikIdentification() {
+        return "";
+    }
+
+    @Override
+    public Map<String, String> getSearchCriteria() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     

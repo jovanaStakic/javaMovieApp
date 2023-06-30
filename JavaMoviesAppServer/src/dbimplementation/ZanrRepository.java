@@ -60,5 +60,10 @@ public class ZanrRepository implements dbrepository.Repository<Zanr>{
     public List<Zanr> getAllByKorisnik(Zanr param, Korisnik korisnik) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
+    @Override
+    public List<Zanr> find(Zanr param) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     
 }

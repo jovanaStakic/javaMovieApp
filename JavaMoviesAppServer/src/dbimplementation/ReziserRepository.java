@@ -63,5 +63,10 @@ public class ReziserRepository implements Repository<Reziser>{
     public List<Reziser> getAllByKorisnik(Reziser param, Korisnik korisnik) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
+    @Override
+    public List<Reziser> find(Reziser param) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     
 }

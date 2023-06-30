@@ -35,7 +35,9 @@ public class ListaRepository implements Repository<Lista>{
             Long idListe=rs.getLong(1);
             query="INSERT INTO film(naziv,datumIzlaska, trajanjeFilma, drzavaPorekla, korisnikID, zanrID, reziserID) VALUES (?,?,?,?,?,?,?)";
             preparedStatement=connection.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
-            List<GenericEntity> filmovi=controller.Controller.getInstance().getAllFilmoviByKorisnik(param.getKorisnik());
+            Film ffilm=new Film();
+            ffilm.setKorisnik(param.getKorisnik());
+            List<GenericEntity> filmovi=controller.Controller.getInstance().getAll(ffilm);
 
             for (Film film : param.getFilmovi()) {
                 keys.add(film.getId());
@@ -86,6 +88,11 @@ public class ListaRepository implements Repository<Lista>{
 
     @Override
     public List<Lista> getAllByKorisnik(Lista param, Korisnik korisnik) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public List<Lista> find(Lista param) throws Exception {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
