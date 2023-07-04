@@ -42,7 +42,7 @@ public class GenericRepository implements db.DbRepository<GenericEntity> {
             if (rsKey.next()) {
                 Long id = rsKey.getLong(1);
                 entity.setId(id);
-                System.out.println(id);
+                entity.afterInsert(connection, id);
             }
 
             rsKey.close();
@@ -55,9 +55,19 @@ public class GenericRepository implements db.DbRepository<GenericEntity> {
 
     @Override
     public void delete(GenericEntity param) throws Exception {
+        try{
         Connection connection = DBConnectionFactory.getInstance().getConnection();
+        param.deleteRelatedEntities(connection);
         StringBuilder sb = new StringBuilder();
-        sb.append("DELETE FROM ").append(param.getTableName()).append(" WHERE id=").append(param);
+        sb.append("DELETE FROM ").append(param.getTableName()).append(" WHERE id=").append(param.getIdForDelete());
+        String query=sb.toString();
+        Statement statement=connection.createStatement();
+        statement.execute(query);
+        System.out.println(query);
+        }catch(Exception ex){
+            ex.printStackTrace();
+            throw ex;
+        }
     }
 
     @Override
@@ -80,7 +90,7 @@ public class GenericRepository implements db.DbRepository<GenericEntity> {
 
             String query = stringBuilder.toString();
             System.out.println(query);
-            System.out.println(query);
+            
             ResultSet rs = statement.executeQuery(query);
             entityList = param.resultSetToList(rs);
             return entityList;
@@ -107,7 +117,7 @@ public class GenericRepository implements db.DbRepository<GenericEntity> {
 
             String query = stringBuilder.toString();
             System.out.println(query);
-            System.out.println(query);
+            
             ResultSet rs = statement.executeQuery(query);
             entityList = param.resultSetToList(rs);
             return entityList;
@@ -139,6 +149,7 @@ public class GenericRepository implements db.DbRepository<GenericEntity> {
                     append(field).append(" = ").append(value);
 
             String query=stringBuilder.toString();
+            System.out.println(query);
             ResultSet resultSet = statement.executeQuery(query);
             foundEntities = param.resultSetToList(resultSet);
             return foundEntities;

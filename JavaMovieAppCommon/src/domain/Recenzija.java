@@ -4,6 +4,7 @@
  */
 package domain;
 
+import java.sql.Connection;
 import java.io.Serializable;
 import java.sql.ResultSet;
 import java.util.ArrayList;
@@ -150,7 +151,7 @@ public class Recenzija implements Serializable,GenericEntity{
 
     @Override
     public String getInsertValues() {
-       return "'" + new java.util.Date() + "'," + ocenaFilma + ",'" +utisak + "', " + korisnik.getId() + ", " + film.getId();
+       return "'" + new java.sql.Date(datumKreiranja.getTime()) + "'," + ocenaFilma + ",'" +utisak + "', " + korisnik.getId() + ", " + film.getId();
     }
 
     @Override
@@ -160,12 +161,29 @@ public class Recenzija implements Serializable,GenericEntity{
 
     @Override
     public List<GenericEntity> resultSetToList(ResultSet rs) {
-        return new ArrayList<>();
+        List<GenericEntity> recenzije=new ArrayList<>();
+        try{
+            while(rs.next()){
+                Zanr z=new Zanr(rs.getLong("film.zanrID"), "");
+                Reziser r=new Reziser(rs.getLong("film.reziserID"),"",new Date(),"");
+                Film f=new Film(rs.getLong("film.id"), rs.getString("film.naziv"), rs.getDate("film.datumIzlaska"),
+                        rs.getInt("film.trajanjeFilma"), rs.getString("film.drzavaPorekla"), korisnik, 
+                        z,r, new ArrayList<>());
+                Recenzija recenzija=new Recenzija(rs.getLong("recenzija.id"),
+                        rs.getDate("recenzija.datumKreiranja"), rs.getInt("recenzija.ocenaFilma"), 
+                        rs.getString("recenzija.utisak"),
+                        korisnik,  f);
+                recenzije.add(recenzija);
+            }
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+        return recenzije;
     }
 
     @Override
     public String getJoinTables() {
-        return "";
+        return " JOIN film ON recenzija.filmID=film.id ";
     }
 
     @Override
@@ -180,7 +198,7 @@ public class Recenzija implements Serializable,GenericEntity{
 
     @Override
     public String getKorisnikIdentification() {
-         return  "HAVING korisnikID="+korisnik.getId();
+         return  " HAVING recenzija.korisnikID="+korisnik.getId();
     }
 
     @Override
@@ -188,5 +206,15 @@ public class Recenzija implements Serializable,GenericEntity{
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
     
-    
+    @Override
+    public Long getIdForDelete() {
+        return id;
+    }
+      @Override
+    public void afterInsert(Connection connection, Long id) throws Exception{
+    }
+
+    @Override
+    public void deleteRelatedEntities(Connection connection) throws Exception {
+    }
 }

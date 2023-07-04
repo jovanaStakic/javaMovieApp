@@ -4,9 +4,10 @@
  */
 package domain;
 
+import java.sql.Connection;
 import java.io.Serializable;
 import java.sql.ResultSet;
-import java.text.SimpleDateFormat;
+import java.sql.PreparedStatement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -107,6 +108,15 @@ public class Film extends SearchingEntity implements Serializable {
         this.zanr = zanr;
     }
 
+    public List<Glumac> getGlumci() {
+        return glumci;
+    }
+
+    public void setGlumci(List<Glumac> glumci) {
+        this.glumci = glumci;
+    }
+    
+
     @Override
     public int hashCode() {
         int hash = 5;
@@ -139,25 +149,25 @@ public class Film extends SearchingEntity implements Serializable {
         if (!Objects.equals(this.naziv, other.naziv)) {
             return false;
         }
-
-//        if (!Objects.equals(this.drzavaPorekla, other.drzavaPorekla)) {
-//            return false;
-//        }
-////        if (!Objects.equals(this.id, other.id)) {
-////            return false;
-////        }
-//       if (!Objects.equals(this.datumIzlaska, other.datumIzlaska)) {
-//            return false;
-//       }
-//        if (!Objects.equals(this.korisnik, other.korisnik)) {
-//            return false;
-//        }
-//        if (!Objects.equals(this.zanr, other.zanr)) {
-//            return false;
-//        }
-//        return Objects.equals(this.reziser, other.reziser);
-        return true;
+        if (!Objects.equals(this.drzavaPorekla, other.drzavaPorekla)) {
+            return false;
+        }
+        if (!Objects.equals(this.id, other.id)) {
+            return false;
+        }
+        if (!Objects.equals(this.datumIzlaska, other.datumIzlaska)) {
+            return false;
+        }
+        if (!Objects.equals(this.korisnik, other.korisnik)) {
+            return false;
+        }
+        if (!Objects.equals(this.zanr, other.zanr)) {
+            return false;
+        }
+        return Objects.equals(this.reziser, other.reziser);
     }
+
+ 
 
     @Override
     public String toString() {
@@ -185,6 +195,8 @@ public class Film extends SearchingEntity implements Serializable {
     public void setId(long id) {
         this.id = id;
     }
+    
+    
 
     @Override
     public List<GenericEntity> resultSetToList(ResultSet rs) {
@@ -243,5 +255,26 @@ public class Film extends SearchingEntity implements Serializable {
         if (naziv != null) {
             searchCriteria.put("naziv", "'"+naziv+"'");
         }
+    }
+    
+    @Override
+    public Long getIdForDelete() {
+        return id;
+    }
+    
+    @Override
+    public void afterInsert(Connection connection, Long id) throws Exception{
+         for (Glumac glumac : getGlumci()) {
+            String query = "INSERT INTO Uloga (FilmID, GlumacID) VALUES (?, ?)";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setLong(1, id);
+            statement.setLong(2, glumac.getId());  
+            statement.executeUpdate();
+        }
+    }
+
+    @Override
+    public void deleteRelatedEntities(Connection connection) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

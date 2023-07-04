@@ -4,6 +4,7 @@
  */
 package domain;
 
+import java.sql.Connection;
 import java.io.Serializable;
 import java.util.List;
 import java.sql.ResultSet;
@@ -22,7 +23,9 @@ public interface GenericEntity extends Serializable {
     String getInsertValues();
 
     void setId(long id);
-
+    
+    Long getIdForDelete();
+    
     List<GenericEntity> resultSetToList(ResultSet rs);
 
     String getJoinTables();
@@ -34,4 +37,8 @@ public interface GenericEntity extends Serializable {
     String getKorisnikIdentification();
     
     Map<String, String> getSearchCriteria();
+    
+    public void afterInsert(Connection connection, Long id) throws Exception;
+    
+    void deleteRelatedEntities(Connection connection) throws Exception;
 }

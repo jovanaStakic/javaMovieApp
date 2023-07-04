@@ -76,17 +76,38 @@ public class HandleClients extends Thread{
                         controller.Controller.getInstance().saveRecenzija((Recenzija) request.getArgument(),prijavljenKorisnik);
                         break;
                     case GET_RECENZIJE:
-                        response.setResult(controller.Controller.getInstance().getRecenzijaByKorisnik(prijavljenKorisnik));
+                        Recenzija recenzija=new Recenzija();
+                        recenzija.setKorisnik(prijavljenKorisnik);
+                        response.setResult(controller.Controller.getInstance().getRecenzije(recenzija));
                         break;
                     case DELETE_RECENZIJA:
                         controller.Controller.getInstance().deleteRecenzija((Recenzija) request.getArgument());
                         break;
                     case KREIRAJ_LISTU:
-                        controller.Controller.getInstance().addLista((Lista) request.getArgument());
+                        Lista lista=(Lista) request.getArgument();
+                        lista.setKorisnik(prijavljenKorisnik);
+                        controller.Controller.getInstance().addLista(lista);
+                        break;
+                    case DELETE_LISTA:
+                        Lista lista1=(Lista) request.getArgument();
+                        lista1.setKorisnik(prijavljenKorisnik);
+                        controller.Controller.getInstance().deleteLista(lista1);
+                        break;
+                    case FIND_LISTE:
+                         Lista lista2=(Lista) request.getArgument();
+                        lista2.setKorisnik(prijavljenKorisnik);
+                        response.setResult( controller.Controller.getInstance().findListe(lista2));
+                        break;
+                    case GET_LISTE:
+                        Lista lista3=new Lista();
+                        lista3.setKorisnik(prijavljenKorisnik);
+                        response.setResult( controller.Controller.getInstance().getListe(lista3));
+                        break;
+                    case UPDATE_LIST:
                         break;
                     }
                 }catch (Exception e) {
-                   // e.printStackTrace();
+                    e.printStackTrace();
                     response.setException(e);
                 }
                 

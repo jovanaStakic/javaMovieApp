@@ -51,7 +51,7 @@ public class KreirajListuForma extends javax.swing.JDialog {
         btnDodajListu = new javax.swing.JButton();
         btnDodajFilm = new javax.swing.JButton();
         cbdFilmovi = new javax.swing.JComboBox();
-        btnKreirajFilm = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -82,10 +82,10 @@ public class KreirajListuForma extends javax.swing.JDialog {
 
         cbdFilmovi.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
-        btnKreirajFilm.setText("Kreiraj film");
-        btnKreirajFilm.addActionListener(new java.awt.event.ActionListener() {
+        jButton1.setText("Pretrazi film");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnKreirajFilmActionPerformed(evt);
+                jButton1ActionPerformed(evt);
             }
         });
 
@@ -98,15 +98,16 @@ public class KreirajListuForma extends javax.swing.JDialog {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jScrollPane1)
                     .addComponent(btnDodajListu, javax.swing.GroupLayout.PREFERRED_SIZE, 193, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnKreirajFilm, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(lblNaziv, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lblNaziv, javax.swing.GroupLayout.DEFAULT_SIZE, 80, Short.MAX_VALUE)
                         .addGap(18, 18, 18)
                         .addComponent(txtNazivListe, javax.swing.GroupLayout.PREFERRED_SIZE, 706, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(cbdFilmovi, javax.swing.GroupLayout.PREFERRED_SIZE, 659, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addComponent(btnDodajFilm, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btnDodajFilm, javax.swing.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(24, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -121,7 +122,7 @@ public class KreirajListuForma extends javax.swing.JDialog {
                     .addComponent(cbdFilmovi, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnDodajFilm))
                 .addGap(18, 18, 18)
-                .addComponent(btnKreirajFilm)
+                .addComponent(jButton1)
                 .addGap(36, 36, 36)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 229, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
@@ -157,11 +158,6 @@ public class KreirajListuForma extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnDodajFilmActionPerformed
 
-    private void btnKreirajFilmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnKreirajFilmActionPerformed
-      new KreirajFilmDijalog(this).setVisible(true);
-      
-    }//GEN-LAST:event_btnKreirajFilmActionPerformed
-
     private void btnDodajListuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDodajListuActionPerformed
        String naziv=txtNazivListe.getText().trim();
        Lista lista=new Lista(-1l, naziv, new Date(), korisnik, filmovi);
@@ -172,6 +168,10 @@ public class KreirajListuForma extends javax.swing.JDialog {
            JOptionPane.showMessageDialog(this, ex.getMessage());
        }
     }//GEN-LAST:event_btnDodajListuActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        new PretragaFilmaForma(this).setVisible(true);
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -218,8 +218,8 @@ public class KreirajListuForma extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnDodajFilm;
     private javax.swing.JButton btnDodajListu;
-    private javax.swing.JButton btnKreirajFilm;
     private javax.swing.JComboBox cbdFilmovi;
+    private javax.swing.JButton jButton1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel lblNaziv;

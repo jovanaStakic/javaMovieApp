@@ -3,26 +3,17 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/D:/Java%20projekti/Nova%20fascikla/Java%20movie%20app/JavaMoviesAppServer/src/operationFilm/GetReziseriSO.java</file>
-            <file>file:/D:/Java%20projekti/Nova%20fascikla/Java%20movie%20app/JavaMoviesAppServer/src/dbimplementation/KorisnikRepository.java</file>
+            <file>file:/D:/Java%20projekti/Nova%20fascikla/Java%20movie%20app/JavaMoviesAppServer/src/operationFilm/GetGlumciSO.java</file>
             <file>file:/D:/Java%20projekti/Nova%20fascikla/Java%20movie%20app/JavaMoviesAppServer/src/controller/Controller.java</file>
-            <file>file:/D:/Java%20projekti/Nova%20fascikla/Java%20movie%20app/JavaMoviesAppServer/src/dbimplementation/FilmRepository.java</file>
-            <file>file:/D:/Java%20projekti/Nova%20fascikla/Java%20movie%20app/JavaMoviesAppServer/src/test/DBLOGIN.java</file>
-            <file>file:/D:/Java%20projekti/Nova%20fascikla/Java%20movie%20app/JavaMoviesAppServer/src/dbrepository/Repository.java</file>
-            <file>file:/D:/Java%20projekti/Nova%20fascikla/Java%20movie%20app/JavaMoviesAppServer/src/db/DBConnectionFactory.java</file>
-            <file>file:/D:/Java%20projekti/Nova%20fascikla/Java%20movie%20app/JavaMoviesAppServer/src/db/DbRepository.java</file>
-            <file>file:/D:/Java%20projekti/Nova%20fascikla/Java%20movie%20app/JavaMoviesAppServer/src/operationFilm/SaveMovieSO.java</file>
+            <file>file:/D:/Java%20projekti/Nova%20fascikla/Java%20movie%20app/JavaMoviesAppServer/src/operationFilm/DeleteListaSO.java</file>
+            <file>file:/D:/Java%20projekti/Nova%20fascikla/Java%20movie%20app/JavaMoviesAppServer/src/operationFilm/DeleteRecenzijaSO.java</file>
+            <file>file:/D:/Java%20projekti/Nova%20fascikla/Java%20movie%20app/JavaMoviesAppServer/src/dbimplementation/GenericRepository.java</file>
             <file>file:/D:/Java%20projekti/Nova%20fascikla/Java%20movie%20app/JavaMoviesAppServer/src/clientThread/HandleClients.java</file>
+            <file>file:/D:/Java%20projekti/Nova%20fascikla/Java%20movie%20app/JavaMoviesAppServer/src/operationFilm/SaveListaSO.java</file>
             <file>file:/D:/Java%20projekti/Nova%20fascikla/Java%20movie%20app/JavaMoviesAppServer/src/operationFilm/FindMoviesSO.java</file>
             <file>file:/D:/Java%20projekti/Nova%20fascikla/Java%20movie%20app/JavaMoviesAppServer/src/dbimplementation/ListaRepository.java</file>
-            <file>file:/D:/Java%20projekti/Nova%20fascikla/Java%20movie%20app/JavaMoviesAppServer/src/operation/AbstractGenericOperation.java</file>
-            <file>file:/D:/Java%20projekti/Nova%20fascikla/Java%20movie%20app/JavaMoviesAppServer/src/dbimplementation/ReziserRepository.java</file>
-            <file>file:/D:/Java%20projekti/Nova%20fascikla/Java%20movie%20app/JavaMoviesAppServer/src/operationFilm/GetGlumciSO.java</file>
-            <file>file:/D:/Java%20projekti/Nova%20fascikla/Java%20movie%20app/JavaMoviesAppServer/src/operationFilm/GetZanroviSO.java</file>
-            <file>file:/D:/Java%20projekti/Nova%20fascikla/Java%20movie%20app/JavaMoviesAppServer/src/dbimplementation/RecenzijaRepository.java</file>
-            <file>file:/D:/Java%20projekti/Nova%20fascikla/Java%20movie%20app/JavaMoviesAppServer/src/operationFilm/SaveRecenizijaSO.java</file>
-            <file>file:/D:/Java%20projekti/Nova%20fascikla/Java%20movie%20app/JavaMoviesAppServer/src/dbimplementation/GenericRepository.java</file>
-            <file>file:/D:/Java%20projekti/Nova%20fascikla/Java%20movie%20app/JavaMoviesAppServer/src/operationFilm/GetMoviesSO.java</file>
+            <file>file:/D:/Java%20projekti/Nova%20fascikla/Java%20movie%20app/JavaMoviesAppServer/src/operationFilm/FindListaSO.java</file>
+            <file>file:/D:/Java%20projekti/Nova%20fascikla/Java%20movie%20app/JavaMoviesAppServer/src/operationFilm/GetListeSO.java</file>
         </group>
     </open-files>
 </project-private>

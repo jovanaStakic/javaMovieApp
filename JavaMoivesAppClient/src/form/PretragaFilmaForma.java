@@ -32,17 +32,16 @@ public class PretragaFilmaForma extends javax.swing.JDialog {
     }
 
     public PretragaFilmaForma(java.awt.Frame parent, boolean modal) {
-        super(parent,modal);
+        super(parent, modal);
         initComponents();
         setLocationRelativeTo(null);
         btnIzaberiFilm.setVisible(false);
         listMovie.setEnabled(false);
-       // listMovie.setForeground(Color.PINK);
-      // listMovie.setFont(new Font("Segoe UI", Font.BOLD, 12));
-    
+        // listMovie.setForeground(Color.PINK);
+        // listMovie.setFont(new Font("Segoe UI", Font.BOLD, 12));
+
         prepareView();
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -200,13 +199,14 @@ public class PretragaFilmaForma extends javax.swing.JDialog {
     private void btnReziserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReziserActionPerformed
 
         Reziser reziser = (Reziser) cbdReziser.getSelectedItem();
-        Film film=new Film(Long.MIN_VALUE, null, null, Integer.MIN_VALUE, null, null, null, reziser, null);
+        Film film = new Film(Long.MIN_VALUE, null, null, Integer.MIN_VALUE, null, null, null, reziser, null);
         try {
             List<Film> filmovi = Communication.getInstance().findMovies(film);
-            if(filmovi.isEmpty())
+            if (filmovi.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Nema filmova za zadati kriterijum pretrage!");
-            else
+            } else {
                 listMovie.setListData(filmovi.toArray());
+            }
         } catch (Exception ex) {
             Logger.getLogger(PretragaFilmaForma.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -217,37 +217,42 @@ public class PretragaFilmaForma extends javax.swing.JDialog {
 
         Zanr zanr = (Zanr) cbdZanr.getSelectedItem();
         try {
-              Film film=new Film(Long.MIN_VALUE, null, null, Integer.MIN_VALUE, null, null, zanr, null, null);
+            Film film = new Film(Long.MIN_VALUE, null, null, Integer.MIN_VALUE, null, null, zanr, null, null);
             List<Film> filmovi = Communication.getInstance().findMovies(film);
-            if(filmovi.isEmpty())
+            if (filmovi.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "Nema filmova za zadati kriterijum pretrage!");
-            else
+            } else {
                 listMovie.setListData(filmovi.toArray());
+            }
         } catch (Exception ex) {
             Logger.getLogger(PretragaFilmaForma.class.getName()).log(Level.SEVERE, null, ex);
         }
-       
+
     }//GEN-LAST:event_btnZanrActionPerformed
 
     private void btnNazivActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNazivActionPerformed
         String naziv = txtNaziv.getText().trim();
         try {
-            
-            Film film=new Film(Long.MIN_VALUE, naziv, null, Integer.MIN_VALUE, null, null, null, null, null);
-            List<Film> filmovi = Communication.getInstance().findMovies(film);
-            if(filmovi.isEmpty())
-                JOptionPane.showMessageDialog(this, "Nema filmova za zadati kriterijum pretrage!");
-            else
-                listMovie.setListData(filmovi.toArray());
 
+            if (naziv.isBlank()) {
+                JOptionPane.showConfirmDialog(this, "Morate uneti naziv za pretragu!");
+            } else {
+                Film film = new Film(Long.MIN_VALUE, naziv, null, Integer.MIN_VALUE, null, null, null, null, null);
+                List<Film> filmovi = Communication.getInstance().findMovies(film);
+                if (filmovi.isEmpty()) {
+                    JOptionPane.showMessageDialog(this, "Nema filmova za zadati kriterijum pretrage!");
+                } else {
+                    listMovie.setListData(filmovi.toArray());
+                }
+            }
         } catch (Exception ex) {
             Logger.getLogger(PretragaFilmaForma.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btnNazivActionPerformed
 
     private void btnIzaberiFilmActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIzaberiFilmActionPerformed
-        KreirajRecenzijuForma rf=(KreirajRecenzijuForma) getOwner();
-        Film film=(Film) listMovie.getSelectedValue();
+        KreirajRecenzijuForma rf = (KreirajRecenzijuForma) getOwner();
+        Film film = (Film) listMovie.getSelectedValue();
         rf.setFilm(film);
         this.dispose();
     }//GEN-LAST:event_btnIzaberiFilmActionPerformed
@@ -279,7 +284,6 @@ public class PretragaFilmaForma extends javax.swing.JDialog {
         }
         //</editor-fold>
 
-      
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -311,9 +315,9 @@ public class PretragaFilmaForma extends javax.swing.JDialog {
                 cbdReziser.addItem(reziser);
             }
             listMovie.setListData(new Object[0]);
-            
+
         } catch (Exception ex) {
-            Logger.getLogger(KreirajFilmForma.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.getMessage(), "Greska", JOptionPane.ERROR_MESSAGE);
         }
     }
 }

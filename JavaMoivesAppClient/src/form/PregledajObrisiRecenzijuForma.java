@@ -3,11 +3,13 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
 package form;
+
 import domain.Recenzija;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
+
 /**
  *
  * @author Administrator
@@ -37,7 +39,7 @@ public class PregledajObrisiRecenzijuForma extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         cbdRecenzija = new javax.swing.JComboBox();
         btnObrisi = new javax.swing.JButton();
-        btnObrisi1 = new javax.swing.JButton();
+        btnPregledaj = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         txtRecenzija = new javax.swing.JTextArea();
 
@@ -56,10 +58,10 @@ public class PregledajObrisiRecenzijuForma extends javax.swing.JDialog {
             }
         });
 
-        btnObrisi1.setText("Pogledaj recenziju");
-        btnObrisi1.addActionListener(new java.awt.event.ActionListener() {
+        btnPregledaj.setText("Pogledaj recenziju");
+        btnPregledaj.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnObrisi1ActionPerformed(evt);
+                btnPregledajActionPerformed(evt);
             }
         });
 
@@ -81,7 +83,7 @@ public class PregledajObrisiRecenzijuForma extends javax.swing.JDialog {
                         .addComponent(cbdRecenzija, 0, 581, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                         .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(btnObrisi1, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnPregledaj, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(26, 26, 26)
                         .addComponent(btnObrisi, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
@@ -97,7 +99,7 @@ public class PregledajObrisiRecenzijuForma extends javax.swing.JDialog {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnObrisi1, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnPregledaj, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnObrisi, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(36, 36, 36))
         );
@@ -120,7 +122,7 @@ public class PregledajObrisiRecenzijuForma extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnObrisiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnObrisiActionPerformed
-        Recenzija recenzija=(Recenzija) cbdRecenzija.getSelectedItem();
+        Recenzija recenzija = (Recenzija) cbdRecenzija.getSelectedItem();
         try {
             communication.Communication.getInstance().deleteRecenzija(recenzija);
             JOptionPane.showMessageDialog(this, "Recenzija je uspešno obrisana!");
@@ -131,14 +133,15 @@ public class PregledajObrisiRecenzijuForma extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnObrisiActionPerformed
 
-    private void btnObrisi1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnObrisi1ActionPerformed
-    Recenzija recenija=(Recenzija) cbdRecenzija.getSelectedItem();
-    txtRecenzija.setText(recenija.getFilm().getNaziv()+" , datum: "+recenija.getDatumKreiranja()+" Utisak: "+"\n"+recenija.getUtisak());
-    }//GEN-LAST:event_btnObrisi1ActionPerformed
+    private void btnPregledajActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPregledajActionPerformed
+        Recenzija recenzija = (Recenzija) cbdRecenzija.getSelectedItem();
+        txtRecenzija.setText(recenzija.getFilm().getNaziv() + " , datum: " + recenzija.getDatumKreiranja() + "  Utisak: " + "\n" + recenzija.getUtisak());
+    }//GEN-LAST:event_btnPregledajActionPerformed
 
     /**
      * @param args the command line arguments
      */
+    
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -181,7 +184,7 @@ public class PregledajObrisiRecenzijuForma extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnObrisi;
-    private javax.swing.JButton btnObrisi1;
+    private javax.swing.JButton btnPregledaj;
     private javax.swing.JComboBox cbdRecenzija;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
@@ -191,7 +194,7 @@ public class PregledajObrisiRecenzijuForma extends javax.swing.JDialog {
 
     private void prepareView() {
         try {
-            List<Recenzija> recenzije=communication.Communication.getInstance().getRecenzije();
+            List<Recenzija> recenzije = communication.Communication.getInstance().getRecenzije();
             cbdRecenzija.removeAllItems();
             for (Recenzija recenzija : recenzije) {
                 cbdRecenzija.addItem(recenzija);

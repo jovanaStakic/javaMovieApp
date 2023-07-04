@@ -4,6 +4,7 @@
  */
 package domain;
 
+import java.sql.Connection;
 import java.io.Serializable;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -139,5 +140,18 @@ public class Zanr implements Serializable,GenericEntity
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+    @Override
+    public Long getIdForDelete() {
+        return id;
+    }
     
+    
+      @Override
+    public void afterInsert(Connection connection, Long id) throws Exception{
+    }
+
+    @Override
+    public void deleteRelatedEntities(Connection connection) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
 }

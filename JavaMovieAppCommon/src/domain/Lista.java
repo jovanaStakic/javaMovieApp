@@ -4,33 +4,39 @@
  */
 package domain;
 
+import java.sql.Statement;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.io.Serializable;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Objects;
 import java.util.List;
 import java.util.Map;
+
 /**
  *
  * @author Administrator
  */
-public class Lista implements Serializable,GenericEntity{
-    
+public class Lista extends SearchingEntity implements Serializable {
+
     private Long id;
     private String nazivListe;
     private Date datumKreiranja;
     private Korisnik korisnik;
     private List<Film> filmovi;
-    
+
     public Lista() {
     }
 
-    public Lista(Long id, String nazivListe, Date datumKreiranja, Korisnik korisnik,List<Film> filmovi) {
+    public Lista(Long id, String nazivListe, Date datumKreiranja, Korisnik korisnik, List<Film> filmovi) {
         this.id = id;
         this.nazivListe = nazivListe;
         this.datumKreiranja = datumKreiranja;
         this.korisnik = korisnik;
-        this.filmovi=filmovi;
+        this.filmovi = filmovi;
     }
 
     public Korisnik getKorisnik() {
@@ -101,7 +107,7 @@ public class Lista implements Serializable,GenericEntity{
 
     @Override
     public String toString() {
-        return "Lista{" + "nazivListe=" + nazivListe + ", datumKreiranja=" + datumKreiranja + ", korisnik=" + korisnik + '}';
+        return "Lista{" + "nazivListe=" + nazivListe + ", datumKreiranja=" + datumKreiranja ;
     }
 
     public List<Film> getFilmovi() {
@@ -124,43 +130,105 @@ public class Lista implements Serializable,GenericEntity{
 
     @Override
     public String getInsertValues() {
-        return "'"+nazivListe+"','"+new java.sql.Date(datumKreiranja.getTime())+"',"+korisnik.getId();
+        return "'" + nazivListe + "','" + new java.sql.Date(datumKreiranja.getTime()) + "'," + korisnik.getId();
     }
 
     @Override
     public void setId(long id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        this.id=id;
     }
 
     @Override
     public List<GenericEntity> resultSetToList(ResultSet rs) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Map<Long, Lista> liste = new HashMap<>();
+try{
+    while (rs.next()) {
+        Long listaId = rs.getLong("id");
+
+        // Ako lista već postoji u mapi, preuzmite je
+        // Inače, kreirajte novu listu i dodajte je u mapu
+        Lista lista = liste.getOrDefault(listaId, null);
+        if (lista == null) {
+            lista = new Lista(listaId, rs.getString("nazivListe"), rs.getDate("datumKreiranja")
+                    , korisnik, new ArrayList<>());
+            
+            liste.put(listaId, lista);
+        }
+
+     
+        Zanr zanr=new Zanr(rs.getLong("zanrID"),null);
+        Reziser reziser=new Reziser(rs.getLong("reziserID"),null,null,null);
+        
+        Film film = new Film(rs.getLong("id"), rs.getString("naziv"), rs.getDate("datumIzlaska"), 
+                rs.getInt("trajanjeFilma"), rs.getString("drzavaPorekla"), korisnik, zanr, reziser, new ArrayList<>());
+        
+        lista.getFilmovi().add(film);
+    }}catch(Exception e){
+        e.printStackTrace();
+    }
+
+    return new ArrayList<>(liste.values());
     }
 
     @Override
     public String getJoinTables() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return " LEFT JOIN lf ON lista.id = lf.listaID " +
+"LEFT JOIN Film  ON lf.FilmID = film.id ";
     }
 
     @Override
     public String getAgregateFunctions() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "";
     }
 
     @Override
     public String getSpecaialQueryEndings() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return "";
     }
 
     @Override
     public String getKorisnikIdentification() {
-         return  "HAVING korisnikID="+korisnik.getId();
+        return " HAVING lista.korisnikID=" + korisnik.getId();
+    }
+
+   
+
+    @Override
+    public Long getIdForDelete() {
+        return id;
     }
 
     @Override
-    public Map<String, String> getSearchCriteria() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void afterInsert(Connection connection, Long id) throws Exception {
+          for (Film film : getFilmovi()) { 
+            String query = "INSERT INTO LF (ListaID, FilmID) VALUES (?, ?)";
+            PreparedStatement statement = connection.prepareStatement(query);
+            statement.setLong(1, id);
+            statement.setLong(2, film.getId()); 
+            statement.executeUpdate();
+        }
     }
+
+    @Override
+    public void setSearchCriteria() {
+        if(nazivListe!=null){
+            searchCriteria.put("nazivListe","'"+nazivListe+"'");
+        }
+            
+    }
+
+    @Override
+    public void deleteRelatedEntities(Connection connection) throws Exception {
+        String query = "DELETE FROM lf WHERE ListaID ="+id;
+        Statement statement=connection.createStatement();
+        statement.executeUpdate(query);
+        statement.close();
+        }
+
+   
     
-    
+  
 }
+
+
+

@@ -4,7 +4,7 @@
  */
 package controller;
 
-import dbimplementation.FilmRepository;
+
 import dbimplementation.KorisnikRepository;
 import dbimplementation.ListaRepository;
 import dbimplementation.RecenzijaRepository;
@@ -13,11 +13,17 @@ import dbimplementation.ZanrRepository;
 import domain.*;
 import java.util.List;
 import operation.AbstractGenericOperation;
+import operationFilm.DeleteListaSO;
+import operationFilm.DeleteRecenzijaSO;
+import operationFilm.FindListaSO;
 import operationFilm.FindMoviesSO;
 import operationFilm.GetGlumciSO;
+import operationFilm.GetListeSO;
 import operationFilm.GetMoviesSO;
+import operationFilm.GetRecenzijeSO;
 import operationFilm.GetReziseriSO;
 import operationFilm.GetZanroviSO;
+import operationFilm.SaveListaSO;
 import operationFilm.SaveMovieSO;
 import operationFilm.SaveRecenizijaSO;
 
@@ -29,7 +35,7 @@ public class Controller {
 
     private static Controller instance;
     private final KorisnikRepository korisnikRepository;
-    private final FilmRepository filmRepository;
+   
     private final ZanrRepository zanrRepository;
     private final ReziserRepository reziserRepository;
     private final RecenzijaRepository recenzijaRepository;
@@ -37,7 +43,7 @@ public class Controller {
 
     private Controller() {
         korisnikRepository = new KorisnikRepository();
-        filmRepository = new FilmRepository();
+       
         zanrRepository = new ZanrRepository();
         reziserRepository = new ReziserRepository();
         recenzijaRepository = new RecenzijaRepository();
@@ -106,21 +112,43 @@ public class Controller {
         saveRecenzija.execute(recezija);
     }
 
-    public List<Recenzija> getRecenzijaByKorisnik(Korisnik korisnik) {
-        return recenzijaRepository.getAllByKorisnik(korisnik);
+    public List<GenericEntity> getRecenzije(Recenzija recenzija) throws Exception{
+        AbstractGenericOperation getAll=new GetRecenzijeSO();
+        getAll.execute(recenzija);
+        return ((GetRecenzijeSO) getAll).getRecenzije();
     }
+    
 
     public void deleteRecenzija(Recenzija recenzija) throws Exception {
-        recenzijaRepository.delete(recenzija);
+        AbstractGenericOperation delete=new DeleteRecenzijaSO();
+        delete.execute(recenzija);
     }
 
     public void addLista(Lista lista) throws Exception {
-        listaRepository.add(lista);
+        AbstractGenericOperation saveLista=new SaveListaSO();
+        saveLista.execute(lista);
     }
 
     public Object getGlumci() throws Exception {
         AbstractGenericOperation getAll=new GetGlumciSO();
         getAll.execute(new Glumac());
         return ((GetGlumciSO)getAll).getGlumci();
+    }
+    
+    public List<GenericEntity> findListe(Lista lista) throws Exception{
+        AbstractGenericOperation find=new FindListaSO();
+        find.execute(lista);
+        return ((FindListaSO) find).getListe();
+    }
+
+    public void deleteLista(Lista lista) throws Exception {
+        AbstractGenericOperation delete=new DeleteListaSO();
+        delete.execute(lista);
+    }
+    
+     public List<GenericEntity> getListe(Lista lista) throws Exception{
+        AbstractGenericOperation getAll=new GetListeSO();
+        getAll.execute(lista);
+        return ((GetListeSO) getAll).getListe();
     }
 }
