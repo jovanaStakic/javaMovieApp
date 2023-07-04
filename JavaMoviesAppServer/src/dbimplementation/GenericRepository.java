@@ -55,16 +55,16 @@ public class GenericRepository implements db.DbRepository<GenericEntity> {
 
     @Override
     public void delete(GenericEntity param) throws Exception {
-        try{
-        Connection connection = DBConnectionFactory.getInstance().getConnection();
-        param.deleteRelatedEntities(connection);
-        StringBuilder sb = new StringBuilder();
-        sb.append("DELETE FROM ").append(param.getTableName()).append(" WHERE id=").append(param.getIdForDelete());
-        String query=sb.toString();
-        Statement statement=connection.createStatement();
-        statement.execute(query);
-        System.out.println(query);
-        }catch(Exception ex){
+        try {
+            Connection connection = DBConnectionFactory.getInstance().getConnection();
+            param.deleteRelatedEntities(connection);
+            StringBuilder sb = new StringBuilder();
+            sb.append("DELETE FROM ").append(param.getTableName()).append(" WHERE id=").append(param.getIdOfEntity());
+            String query = sb.toString();
+            Statement statement = connection.createStatement();
+            statement.execute(query);
+            System.out.println(query);
+        } catch (Exception ex) {
             ex.printStackTrace();
             throw ex;
         }
@@ -72,7 +72,26 @@ public class GenericRepository implements db.DbRepository<GenericEntity> {
 
     @Override
     public void update(GenericEntity param) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        try {
+            Connection connection = DBConnectionFactory.getInstance().getConnection();
+            StringBuilder sb = new StringBuilder();
+            sb.append("UPDATE ").append(param.getTableName()+" SET ").append(param.getUpdateText())
+                    .append(" WHERE id=").append(param.getIdOfEntity());
+            String query = sb.toString();
+            Statement statement = connection.createStatement();
+            statement.execute(query);
+            System.out.println(query);
+        // Brisanje starih veza
+        param.deleteRelatedEntities(connection);
+        
+        // Ponovno kreiranje veza
+        param.afterInsert(connection,param.getIdOfEntity());
+            
+            
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw ex;
+        }
     }
 
     @Override
@@ -86,11 +105,9 @@ public class GenericRepository implements db.DbRepository<GenericEntity> {
                     append(param.getTableName()).append(param.getJoinTables()).
                     append(param.getSpecaialQueryEndings()).
                     append(param.getKorisnikIdentification());
-            //param.getJoinTables()
-
             String query = stringBuilder.toString();
             System.out.println(query);
-            
+
             ResultSet rs = statement.executeQuery(query);
             entityList = param.resultSetToList(rs);
             return entityList;
@@ -100,33 +117,9 @@ public class GenericRepository implements db.DbRepository<GenericEntity> {
         }
     }
 
-    //Promena configuracije
+ 
 //ne moze korisnik, Hash Map kao naziv parametra i kljuc, prosledi kao parametar
-    @Override
-    public List<GenericEntity> getAllByKorisnik(GenericEntity param, Korisnik korisnik) throws Exception {
-        List<GenericEntity> entityList = new ArrayList<>();
-        try {
-            Connection connection = DBConnectionFactory.getInstance().getConnection();
-            Statement statement = connection.createStatement();
-            StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append("SELECT *").append(param.getAgregateFunctions()).append(" FROM ").
-                    append(param.getTableName()).append(param.getJoinTables()).
-                    append(param.getSpecaialQueryEndings()).append(" HAVING korisnikID=")
-                    .append(korisnik.getId());
-            //param.getJoinTables()
 
-            String query = stringBuilder.toString();
-            System.out.println(query);
-            
-            ResultSet rs = statement.executeQuery(query);
-            entityList = param.resultSetToList(rs);
-            return entityList;
-        } catch (Exception ex) {
-            ex.printStackTrace();
-            throw ex;
-        }
-
-    }
 
     @Override
     public List<GenericEntity> find(GenericEntity param) throws Exception {
@@ -148,12 +141,12 @@ public class GenericRepository implements db.DbRepository<GenericEntity> {
                     append(" AND ").
                     append(field).append(" = ").append(value);
 
-            String query=stringBuilder.toString();
+            String query = stringBuilder.toString();
             System.out.println(query);
             ResultSet resultSet = statement.executeQuery(query);
             foundEntities = param.resultSetToList(resultSet);
             return foundEntities;
-            
+
         } catch (Exception ex) {
             ex.printStackTrace();
             throw ex;

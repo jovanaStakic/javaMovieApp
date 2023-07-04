@@ -24,7 +24,7 @@ public interface GenericEntity extends Serializable {
 
     void setId(long id);
     
-    Long getIdForDelete();
+    Long getIdOfEntity();
     
     List<GenericEntity> resultSetToList(ResultSet rs);
 
@@ -41,4 +41,6 @@ public interface GenericEntity extends Serializable {
     public void afterInsert(Connection connection, Long id) throws Exception;
     
     void deleteRelatedEntities(Connection connection) throws Exception;
+    
+    String getUpdateText();
 }

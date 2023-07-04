@@ -192,4 +192,14 @@ public class Communication {
             throw response.getException();
         }
     }
+       public void updateLista(Lista lista) throws Exception {
+        Request request = new Request(lista, Operation.UPDATE_LISTA);
+        sender.send(request);
+        Response response = (Response) reciever.recieve();
+        if (response.getException() == null) {
+
+        } else {
+            throw response.getException();
+        }
+    }
 }

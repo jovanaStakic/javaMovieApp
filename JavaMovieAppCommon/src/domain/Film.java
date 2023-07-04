@@ -171,7 +171,7 @@ public class Film extends SearchingEntity implements Serializable {
 
     @Override
     public String toString() {
-        return naziv + " ( datumIzlaska: " + datumIzlaska + ", trajajanjeFilma:" + trajajanjeFilma + ", drzavaPorekla: " + drzavaPorekla + ", zanr: " + zanr + ", reziser: " + reziser.getImePrezime() + " )";
+        return "Id: "+id+" "+naziv + " ( datumIzlaska: " + datumIzlaska + ", trajajanjeFilma:" + trajajanjeFilma + ", drzavaPorekla: " + drzavaPorekla + ", zanr: " + zanr + ", reziser: " + reziser.getImePrezime() + " )";
     }
 
     @Override
@@ -258,7 +258,7 @@ public class Film extends SearchingEntity implements Serializable {
     }
     
     @Override
-    public Long getIdForDelete() {
+    public Long getIdOfEntity() {
         return id;
     }
     
@@ -275,6 +275,11 @@ public class Film extends SearchingEntity implements Serializable {
 
     @Override
     public void deleteRelatedEntities(Connection connection) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public String getUpdateText() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

@@ -4,7 +4,7 @@
  */
 package dbrepository;
 
-import domain.Korisnik;
+
 import java.util.List;
 
 /**
@@ -14,7 +14,6 @@ import java.util.List;
  */
 public interface Repository<T> {
     List<T> getAll(T param) throws Exception;
-    List<T> getAllByKorisnik(T param,Korisnik korisnik) throws Exception;
     void add(T param) throws Exception;
     void update(T param) throws Exception;
     void delete(T param) throws Exception;

@@ -103,7 +103,10 @@ public class HandleClients extends Thread{
                         lista3.setKorisnik(prijavljenKorisnik);
                         response.setResult( controller.Controller.getInstance().getListe(lista3));
                         break;
-                    case UPDATE_LIST:
+                    case UPDATE_LISTA:
+                        Lista lista4=(Lista) request.getArgument();
+                        lista4.setKorisnik(prijavljenKorisnik);
+                       controller.Controller.getInstance().updateLista(lista4);
                         break;
                     }
                 }catch (Exception e) {

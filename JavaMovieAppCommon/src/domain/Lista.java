@@ -159,7 +159,7 @@ try{
         Zanr zanr=new Zanr(rs.getLong("zanrID"),null);
         Reziser reziser=new Reziser(rs.getLong("reziserID"),null,null,null);
         
-        Film film = new Film(rs.getLong("id"), rs.getString("naziv"), rs.getDate("datumIzlaska"), 
+        Film film = new Film(rs.getLong("film.id"), rs.getString("naziv"), rs.getDate("datumIzlaska"), 
                 rs.getInt("trajanjeFilma"), rs.getString("drzavaPorekla"), korisnik, zanr, reziser, new ArrayList<>());
         
         lista.getFilmovi().add(film);
@@ -194,18 +194,22 @@ try{
    
 
     @Override
-    public Long getIdForDelete() {
-        return id;
+    public Long getIdOfEntity() {
+        return this.id;
     }
 
     @Override
     public void afterInsert(Connection connection, Long id) throws Exception {
+        System.out.println(getFilmovi());
           for (Film film : getFilmovi()) { 
             String query = "INSERT INTO LF (ListaID, FilmID) VALUES (?, ?)";
             PreparedStatement statement = connection.prepareStatement(query);
+           
             statement.setLong(1, id);
-            statement.setLong(2, film.getId()); 
+            statement.setLong(2, film.getId());
+            System.out.println(query); 
             statement.executeUpdate();
+              
         }
     }
 
@@ -224,6 +228,11 @@ try{
         statement.executeUpdate(query);
         statement.close();
         }
+
+    @Override
+    public String getUpdateText() {
+         return "nazivListe = '" + nazivListe + "'";
+    }
 
    
     

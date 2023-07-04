@@ -141,7 +141,7 @@ public class Glumac implements Serializable,GenericEntity{
     }
 
     @Override
-    public Long getIdForDelete() {
+    public Long getIdOfEntity() {
         return id;
     }
 
@@ -152,6 +152,11 @@ public class Glumac implements Serializable,GenericEntity{
 
     @Override
     public void deleteRelatedEntities(Connection connection) throws Exception {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public String getUpdateText() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
