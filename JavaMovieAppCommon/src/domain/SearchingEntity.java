@@ -16,7 +16,7 @@ public abstract class SearchingEntity implements GenericEntity {
     protected Map<String, String> searchCriteria = new HashMap<>();
 
     @Override
-    public Map<String, String> getSearchCriteria() {
+    public final Map<String, String> getSearchCriteria() {
         setSearchCriteria();
         return searchCriteria;
     }

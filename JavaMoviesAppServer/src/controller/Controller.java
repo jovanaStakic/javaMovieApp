@@ -4,7 +4,7 @@
  */
 package controller;
 
-import dbimplementation.KorisnikRepository;
+
 
 import domain.*;
 import java.util.List;
@@ -21,6 +21,7 @@ import operationFilm.GetReziseriSO;
 import operationFilm.GetZanroviSO;
 import operationLista.SaveListaSO;
 import operationFilm.SaveFilmSO;
+import operationKorisnik.GetKorisniciSO;
 import operationRecenzija.SaveRecenizijaSO;
 import operationLista.UpdateListaSO;
 
@@ -31,11 +32,8 @@ import operationLista.UpdateListaSO;
 public class Controller {
 
     private static Controller instance;
-    
-    private final KorisnikRepository korisnikRepository;
-
+   
     private Controller() {
-        korisnikRepository = new KorisnikRepository();
     }
 
     public static Controller getInstance() {
@@ -45,18 +43,20 @@ public class Controller {
         return instance;
     }
 
-    public Korisnik login(String korisnickoIme, String sifra) throws Exception {
-        List<Korisnik> korisnici = korisnikRepository.getAll();
-        for (Korisnik korisnik1 : korisnici) {
-            if (korisnik1.getKorisnickoIme().equals(korisnickoIme) && korisnik1.getSifra().equals(sifra)) {
+    public Korisnik login(Korisnik korisnik) throws Exception {
+        AbstractGenericOperation getAll=new GetKorisniciSO();
+        getAll.execute(new Korisnik());
+        List<GenericEntity> korisnici = ((GetKorisniciSO)getAll).getKorisnici();     
+        for (GenericEntity genericEntity : korisnici) {
+            Korisnik korisnik1=(Korisnik) genericEntity;
+            if (korisnik1.getKorisnickoIme().equals(korisnik.getKorisnickoIme()) && korisnik1.getSifra().equals(korisnik.getSifra())) {
                 return korisnik1;
             }
-
         }
         throw new Exception("Pogrešno korisničko ime i/ili lozinka!");
     }
 
-    public void saveFilm(Film film, Korisnik korisnik) throws Exception {
+    public void saveFilm(Film film) throws Exception {
         AbstractGenericOperation saveMovie = new SaveFilmSO();
         saveMovie.execute(film);
 
@@ -86,7 +86,7 @@ public class Controller {
         return ((GetFilmoviSO) getAll).getMovies();
     }
 
-    public void saveRecenzija(Recenzija recezija, Korisnik korisnik) throws Exception {
+    public void saveRecenzija(Recenzija recezija) throws Exception {
         AbstractGenericOperation saveRecenzija = new SaveRecenizijaSO();
         saveRecenzija.execute(recezija);
     }

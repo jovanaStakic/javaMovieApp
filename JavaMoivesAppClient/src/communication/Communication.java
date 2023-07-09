@@ -51,7 +51,7 @@ public class Communication {
     }
 
     public void saveFilm(Film film) throws Exception {
-        Request request = new Request(film, Operation.SAVE_MOVIE);
+        Request request = new Request(film, Operation.SAVE_FILM);
         sender.send(request);
         Response response = (Response) reciever.recieve();
         if (response.getException() == null) {
@@ -95,7 +95,7 @@ public class Communication {
     }
 
     public List<Film> findMovies(Film film) throws Exception {
-        Request request = new Request(film, Operation.FIND_MOVIES);
+        Request request = new Request(film, Operation.FIND_FILMOVI);
         sender.send(request);
         Response response = (Response) reciever.recieve();
         if (response.getException() == null) {
@@ -150,7 +150,7 @@ public class Communication {
     }
 
     public void addLista(Lista lista) throws Exception {
-        Request request = new Request(lista, Operation.KREIRAJ_LISTU);
+        Request request = new Request(lista, Operation.SAVE_LISTA);
         sender.send(request);
         Response response = (Response) reciever.recieve();
         if (response.getException() == null) {

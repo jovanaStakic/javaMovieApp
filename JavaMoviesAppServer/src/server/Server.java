@@ -10,9 +10,8 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import clientThread.HandleClients;
+import java.util.Iterator;
 
 /**
  *
@@ -20,7 +19,7 @@ import clientThread.HandleClients;
  */
 public class Server extends Thread{
     ServerSocket ssoket;
-    List<HandleClients> clients;
+    static List<HandleClients> clients;
     public Server() throws IOException {
         ssoket=new ServerSocket(9000);
         clients=new ArrayList<>();
@@ -53,28 +52,21 @@ public class Server extends Thread{
         }
     }
     
-    private void removeClients(){
-        for (HandleClients client : clients) {
-            try {
-                client.getClientSocket().close();
-                clients.remove(client);
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-            
-        }
-    }
-    public List<Korisnik> getAktivniKorisnici(){
+  
+    public static List<Korisnik> getAktivniKorisnici(){
         List<Korisnik> korisnici=new ArrayList<>();
         for (HandleClients client : clients) {
             korisnici.add(client.getKorisnik());
         }
         return korisnici;
     }
-    public void removeClient(Socket client){
-        for (HandleClients client1 : clients) {
-            if(client1.getClientSocket()==client)
-                clients.remove(client1);
+    public static void removeKorisnik(Socket client){
+        List<HandleClients> copy=new ArrayList<>(clients);
+        Iterator<HandleClients> iterator = copy.iterator();
+       while(iterator.hasNext()) {
+            HandleClients next = iterator.next();
+            if(next.getClientSocket()==client) 
+                clients.remove(next);
         }
     }
 }

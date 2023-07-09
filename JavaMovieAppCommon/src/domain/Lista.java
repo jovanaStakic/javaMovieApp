@@ -107,7 +107,7 @@ public class Lista extends SearchingEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "Lista{" + "nazivListe=" + nazivListe + ", datumKreiranja=" + datumKreiranja ;
+        return nazivListe + ", datumKreiranja: " + datumKreiranja ;
     }
 
     public List<Film> getFilmovi() {

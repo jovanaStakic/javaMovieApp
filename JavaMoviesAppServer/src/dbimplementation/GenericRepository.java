@@ -12,13 +12,11 @@ import java.sql.Statement;
 import java.util.List;
 import domain.GenericEntity;
 import db.DBConnectionFactory;
-import domain.Korisnik;
-import java.util.ArrayList;
 import java.util.Map;
 
 /**
  *
- * @author Cartman
+ * @author Administrator
  */
 public class GenericRepository implements db.DbRepository<GenericEntity> {
 
@@ -54,12 +52,12 @@ public class GenericRepository implements db.DbRepository<GenericEntity> {
     }
 
     @Override
-    public void delete(GenericEntity param) throws Exception {
+    public void delete(GenericEntity entity) throws Exception {
         try {
             Connection connection = DBConnectionFactory.getInstance().getConnection();
-            param.deleteRelatedEntities(connection);
+            entity.deleteRelatedEntities(connection);
             StringBuilder sb = new StringBuilder();
-            sb.append("DELETE FROM ").append(param.getTableName()).append(" WHERE id=").append(param.getIdOfEntity());
+            sb.append("DELETE FROM ").append(entity.getTableName()).append(" WHERE id=").append(entity.getIdOfEntity());
             String query = sb.toString();
             Statement statement = connection.createStatement();
             statement.execute(query);
@@ -71,21 +69,21 @@ public class GenericRepository implements db.DbRepository<GenericEntity> {
     }
 
     @Override
-    public void update(GenericEntity param) throws Exception {
+    public void update(GenericEntity entity) throws Exception {
         try {
             Connection connection = DBConnectionFactory.getInstance().getConnection();
             StringBuilder sb = new StringBuilder();
-            sb.append("UPDATE ").append(param.getTableName()+" SET ").append(param.getUpdateText())
-                    .append(" WHERE id=").append(param.getIdOfEntity());
+            sb.append("UPDATE ").append(entity.getTableName()+" SET ").append(entity.getUpdateText())
+                    .append(" WHERE id=").append(entity.getIdOfEntity());
             String query = sb.toString();
             Statement statement = connection.createStatement();
             statement.execute(query);
             System.out.println(query);
-        // Brisanje starih veza
-        param.deleteRelatedEntities(connection);
         
-        // Ponovno kreiranje veza
-        param.afterInsert(connection,param.getIdOfEntity());
+        entity.deleteRelatedEntities(connection);
+        
+       
+        entity.afterInsert(connection,entity.getIdOfEntity());
             
             
         } catch (Exception ex) {
@@ -95,21 +93,21 @@ public class GenericRepository implements db.DbRepository<GenericEntity> {
     }
 
     @Override
-    public List<GenericEntity> getAll(GenericEntity param) throws Exception {
+    public List<GenericEntity> getAll(GenericEntity entity) throws Exception {
         List<GenericEntity> entityList;
         try {
             Connection connection = DBConnectionFactory.getInstance().getConnection();
             Statement statement = connection.createStatement();
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append("SELECT *").append(param.getAgregateFunctions()).append(" FROM ").
-                    append(param.getTableName()).append(param.getJoinTables()).
-                    append(param.getSpecaialQueryEndings()).
-                    append(param.getKorisnikIdentification());
+            stringBuilder.append("SELECT *").append(entity.getAgregateFunctions()).append(" FROM ").
+                    append(entity.getTableName()).append(entity.getJoinTables()).
+                    append(entity.getSpecaialQueryEndings()).
+                    append(entity.getKorisnikIdentification());
             String query = stringBuilder.toString();
             System.out.println(query);
 
             ResultSet rs = statement.executeQuery(query);
-            entityList = param.resultSetToList(rs);
+            entityList = entity.resultSetToList(rs);
             return entityList;
         } catch (Exception ex) {
             ex.printStackTrace();
@@ -118,14 +116,12 @@ public class GenericRepository implements db.DbRepository<GenericEntity> {
     }
 
  
-//ne moze korisnik, Hash Map kao naziv parametra i kljuc, prosledi kao parametar
-
 
     @Override
-    public List<GenericEntity> find(GenericEntity param) throws Exception {
+    public List<GenericEntity> find(GenericEntity entity) throws Exception {
         List<GenericEntity> foundEntities;
         try {
-            Map<String, String> criteria = param.getSearchCriteria();
+            Map<String, String> criteria = entity.getSearchCriteria();
             Connection connection = DBConnectionFactory.getInstance().getConnection();
             Statement statement = connection.createStatement();
 
@@ -134,17 +130,17 @@ public class GenericRepository implements db.DbRepository<GenericEntity> {
             String value = entry.getValue();
 
             StringBuilder stringBuilder = new StringBuilder();
-            stringBuilder.append("SELECT *").append(param.getAgregateFunctions()).append(" FROM ").
-                    append(param.getTableName()).append(param.getJoinTables()).
-                    append(param.getSpecaialQueryEndings()).
-                    append(param.getKorisnikIdentification()).
+            stringBuilder.append("SELECT *").append(entity.getAgregateFunctions()).append(" FROM ").
+                    append(entity.getTableName()).append(entity.getJoinTables()).
+                    append(entity.getSpecaialQueryEndings()).
+                    append(entity.getKorisnikIdentification()).
                     append(" AND ").
                     append(field).append(" = ").append(value);
 
             String query = stringBuilder.toString();
             System.out.println(query);
             ResultSet resultSet = statement.executeQuery(query);
-            foundEntities = param.resultSetToList(resultSet);
+            foundEntities = entity.resultSetToList(resultSet);
             return foundEntities;
 
         } catch (Exception ex) {

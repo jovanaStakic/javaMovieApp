@@ -171,7 +171,7 @@ public class Film extends SearchingEntity implements Serializable {
 
     @Override
     public String toString() {
-        return "Id: "+id+" "+naziv + " ( datumIzlaska: " + datumIzlaska + ", trajajanjeFilma:" + trajajanjeFilma + ", drzavaPorekla: " + drzavaPorekla + ", zanr: " + zanr + ", reziser: " + reziser.getImePrezime() + " )";
+        return naziv + " ( datumIzlaska: " + datumIzlaska + ", trajajanjeFilma:" + trajajanjeFilma + ", drzavaPorekla: " + drzavaPorekla + ", zanr: " + zanr.getNazivZanra() + ", reziser: " + reziser.getImePrezime() + " )";
     }
 
     @Override

@@ -46,15 +46,15 @@ public class SettingsForm extends javax.swing.JDialog {
         txtPassword = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle("Settings");
+        setTitle("Podesavanja");
 
-        jLabel2.setText("URL:");
+        jLabel2.setText("Ime baze:");
 
         jLabel3.setText("Username:");
 
         jLabel4.setText("Password:");
 
-        jButton1.setText("Save");
+        jButton1.setText("Sačuvaj");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
